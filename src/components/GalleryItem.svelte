@@ -1,0 +1,494 @@
+<script>
+  import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
+  import GalleryItemHelper from './GalleryItemHelper.svelte';
+  import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
+
+  let items = [
+    {
+      classList: 'is-borderless',
+      imageClass: '',
+      src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/1959_cowboys.jpg',
+      caption: {
+        date: '1959',
+        title: 'New faces of the franchise',
+        text: 'Tex Schramm (left) and Tom Landry agree to become the first president/general manager and coach for the expansion franchise. With his famed fedora, Landry directed the Cowboys for 29 years, winning 250 games and two Super Bowls.',
+        credit: 'AP Photo'
+      }
+    },
+    {
+      classList: '',
+      imageClass: '',
+      src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/1960_cowboys-v2.jpg',
+      caption: {
+        date: '1960',
+        title: 'Staying close to home',
+        text: 'Don Meredith, a quarterback out of SMU, was the Cowboys’ first star and was named the NFL Player of the Year in 1966. After his surprise retirement in 1968, he became even more famous as a Monday Night Football analyst.',
+        credit: 'AP Photo/DWF'
+      }
+    },
+    {
+      classList: '',
+      imageClass: '',
+      src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/1967_cowboys.jpg',
+      caption: {
+        date: '1967',
+        title: 'Cold as ice',
+        text: 'Quarterback Bart Starr scored on a sneak with 13 seconds to play as Green Bay wins the NFL championship against the Cowboys in the "Ice Bowl." Game-time temperature at Lambeau Field was -15 degrees with a wind chill of -48.',
+        credit: 'Press-Gazette/USA TODAY Sports'
+      }
+    }
+  ];
+
+  let isInitial = true;
+  let src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+  let isFullWidth = false;
+  let year;
+  let title;
+  let text;
+  let credit;
+
+  function addNewPhoto() {
+    isInitial = false;
+    items = items.concat( {
+      classList: '',
+      imageClass: isFullWidth ? 'is-full-width' : '',
+      src: src,
+      caption: {
+        date: year.innerHTML,
+        title: title.innerHTML,
+        text: text.innerHTML,
+        credit: credit.innerHTML
+      }
+    } );
+
+    isFullWidth = false;
+    src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    year.innerHTML = '19XX';
+    title.innerHTML = 'Title';
+    text.innerHTML = 'Body text tk.';
+    credit.innerHTML = 'Photo Credit TK';
+  }
+
+  onMount( () => {
+    setLazyImages( document.querySelectorAll( '.decades-gallery-image.is-lazy' ) );
+    watchForLazyImages();
+  } );
+</script>
+
+<style type="text/scss">
+  /*
+  * Project CSS for the Decade's Best
+  * Gallery embeds
+  */
+  @import '../styles/vars';
+
+  .decades-gallery {
+    margin: 0 auto;
+    max-width: 600px;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% - 32px);
+
+    @media screen and (min-width: 375px) {
+      width: calc(100% - 36px);
+    }
+
+    @media screen and (min-width: 414px) {
+      width: calc(100% - 72px);
+    }
+
+    @media screen and (min-width: 664px) {
+      width: 100%;
+    }
+  }
+
+  .decades-gallery.is-big {
+    margin-top: -46px;
+    max-width: 1000px;
+    opacity: 0;
+    transform: translateY(150px);
+    width: 100vw;
+
+    @media screen and (max-width: 623px) {
+      margin-top: -24px;
+    }
+  }
+
+  .decades-gallery.is-big:last-child {
+    margin-top: 32px;
+    opacity: 1;
+    transform: none;
+
+    .decades-gallery-nav {
+      opacity: 1;
+    }
+  }
+
+  .decades-gallery-slider {
+    display: flex;
+    flex-shrink: 1;
+    transform: translate3d(0, 0, 0);
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .decades-gallery-item {
+    border-top: 1px solid $decades-blue;
+    flex-shrink: 0;
+    margin: 0 auto 21px;
+    max-width: 600px;
+    width: calc(100% - 32px);
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &.is-template {
+      padding-top: 23px;
+    }
+
+    @media screen and (min-width: 375px) {
+      width: calc(100vw - 36px);
+    }
+
+    @media screen and (min-width: 414px) {
+      width: calc(100vw - 72px);
+    }
+
+    @media screen and (min-width: 664px) {
+      width: 100vw;
+    }
+  }
+
+  .decades-gallery .decades-gallery-item {
+    width: 100%;
+  }
+
+  .decades-gallery-item .body-text a {
+    border-bottom: 1px dotted $decades-blue;
+    color: currentColor;
+    text-decoration: none;
+    transition: color 0.25s ease-in-out;
+
+    @media screen and (min-width: 768px) {
+      &:hover {
+        border-bottom-style: solid;
+        color: $decades-black;
+      }
+    }
+
+    &:active {
+      border-bottom: 1px solid currentColor;
+      color: $decades-blue;
+    }
+  }
+
+  .decades-gallery.is-big .decades-gallery-item {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 1000px;
+
+    &:last-of-type {
+      margin-bottom: 26px;
+    }
+  }
+
+  .decades-gallery-image {
+    height: auto;
+    // max-height: calc(600px * 0.745);
+    opacity: 1;
+    padding-top: 23px;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in;
+    width: 100%;
+
+    &.is-lazy {
+      opacity: 0;
+    }
+  }
+
+  .decades-gallery-image.is-full-width {
+    margin-left: -16px;
+    width: 100vw;
+
+    @media screen and (min-width: 375px) {
+      margin-left: -18px;
+    }
+
+    @media screen and (min-width: 414px) {
+      margin-left: -36px;
+    }
+
+    @media screen and (min-width: 672px) {
+      margin-left: calc((100vw - 600px) / -2);
+      max-width: 1000px;
+    }
+
+    @media screen and (min-width: 1000px) {
+      margin-left: -200px;
+    }
+  }
+
+  .decades-gallery.is-inline .decades-gallery-image,
+  .decades-gallery-item:first-of-type .decades-gallery-image {
+    padding-top: 0;
+  }
+
+  .decades-gallery-item:not(.is-template):first-of-type {
+    border-top: none;
+  }
+
+  .decades-gallery.is-inline .decades-gallery-item,
+  .decades-gallery-item.is-borderless {
+    border-top: none;
+  }
+
+  .decades-container-hed:not(.no-motion) + .decades-gallery-item .decades-gallery-image {
+    border-top: none;
+    margin-top: -46px;
+  }
+
+  .decades-container-hed.no-motion + .decades-gallery-item .decades-gallery-image {
+    border-top: none;
+    padding-top: 14px;
+  }
+
+  .decades-gallery.is-big .decades-gallery-image {
+    border-top: none;
+    max-height: 734px;
+    padding-top: 0;
+
+    @media screen and (max-width: 999px) {
+      max-height: 73.4vw;
+    }
+  }
+
+  .decades-gallery-caption {
+    color: #000;
+    font-weight: normal;
+    opacity: 1;
+    margin: 7px auto 0;
+    max-width: calc(100vw - 32px);
+    transition: opacity 0.25s ease-in;
+
+    @media screen and (min-width: 375px) {
+      max-width: calc(100vw - 36px);
+    }
+
+    @media screen and (min-width: 414px) {
+      max-width: calc(100vw - 72px);
+    }
+
+    @media screen and (min-width: 664px) {
+      max-width: 600px;
+    }
+
+    @media screen and (min-width: 768px) {
+      margin-top: 8px;
+    }
+  }
+
+  .decades-gallery-image.is-lazy + .decades-gallery-caption {
+    opacity: 0;
+  }
+
+  .decades-gallery.is-big .decades-gallery-caption {
+    opacity: 0;
+    margin-top: 14px;
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  .decades-gallery.is-big .decades-gallery-item.is-active .decades-gallery-caption {
+    opacity: 1;
+  }
+
+  .decades-gallery-date {
+    color: $decades-blue;
+    line-height: 21px;
+  }
+
+  .decades-gallery-caption-index {
+    color: $decades-red;
+    font-size: 15px;
+  }
+
+  .decades-gallery-caption .body-text {
+    margin: 0;
+
+    .credit {
+      color: $decades-credit-color;
+      display: inline;
+    }
+
+    .credit.is-right {
+      display: block;
+      margin-right: -1px;
+      margin-top: -3px;
+      text-align: right;
+    }
+
+    @media screen and (min-width: 768px) {
+      margin-top: 0;
+    }
+  }
+
+  // TODO FIXME Adjust top so it's centered no matter what length caption text
+  .decades-gallery-nav {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    left: 0;
+    opacity: 0;
+    padding: 0 20px;
+    position: absolute;
+    // Half of the 432px height of gallery image, minus 24px for half button height, plus half padding-top
+    top: 208px;
+    transition: opacity 0.25s ease-in-out 0.25s;
+    width: calc(100% - 40px);
+    z-index: 3;
+
+    &.is-visible {
+      opacity: 1;
+    }
+
+    @media screen and (max-width: 623px) {
+      padding-left: 16px;
+      padding-right: 16px;
+      top: calc((100% - 44px) * 0.75 / 2 - 16px);
+      top: calc((100% - 44px) * var(--decades-ratio, 0.75) / 2 - 16px);
+      width: calc(100% - 32px);
+    }
+
+    @media screen and (max-width: 359px) {
+      top: calc((100% - 32px) * 0.75 / 2 - 16px);
+      top: calc((100% - 32px) * var(--decades-ratio, 0.75) / 2 - 16px);
+    }
+  }
+
+  .decades-gallery.is-big .decades-gallery-nav {
+    // Half of the 745px height of the big gallery image, minus 24px for half the height of buttons
+    top: 349px;
+
+    @media screen and (max-width: 999px) {
+      top: calc(37.25vw - 24px);
+    }
+
+    @media screen and (max-width: 623px) {
+      top: calc(37.25vw - 16px);
+    }
+  }
+
+  .decades-gallery.is-inline .decades-gallery-nav {
+    opacity: 1;
+    top: 92px;
+    transition: opacity 0.25s ease-in-out 0.25s;
+
+    &.is-lazy-thing {
+      opacity: 0;
+    }
+
+    @media screen and (min-width: 375px) {
+      top: calc((75vw - 36px) / 2 - 16px);
+      top: calc((100vw - 36px) * var(--decades-ratio, 0.75) / 2 - 16px);
+    }
+
+    @media screen and (min-width: 414px) {
+      top: calc((75vw - 72px) / 2 - 16px);
+      top: calc((100vw - 72px) * var(--decades-ratio, 0.75) / 2 - 16px);
+    }
+
+    @media screen and (min-width: 664px) {
+      top: calc(600px * 0.75 / 2 - 22px);
+      top: calc(600px * var(--decades-ratio, 0.75) / 2 - 22px);
+    }
+  }
+
+  .decades-gallery-nav-button {
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 44px;
+    outline: none;
+    padding: 5px 0 0;
+    position: relative;
+    touch-action: manipulation;
+    transition: background-color 0.25s ease-in-out,
+      opacity 0.25s ease-in-out 1.25s;
+    width: 44px;
+
+    &.is-left svg {
+      transform: rotate(180deg) translateX(1px);
+
+      @media screen and (max-width: 663px) {
+        transform: rotate(180deg) translateX(2px);
+      }
+    }
+
+    svg path {
+      stroke: $decades-red;
+      transition: stroke 0.25s ease-in-out;
+    }
+
+    @media screen and (max-width: 663px) {
+      height: 32px;
+      padding-left: 3px;
+      width: 32px;
+    }
+  }
+
+  .decades-gallery-nav-button:hover {
+    @media screen and (min-width: 768px) {
+      background-color: rgba(221, 0, 0, 0.85);
+
+      svg path {
+        stroke: #fff;
+      }
+    }
+  }
+
+  .decades-gallery-nav-button:active {
+    background-color: $decades-active-red;
+    transition: none;
+
+    svg path {
+      stroke: #fff;
+      transition: none;
+    }
+  }
+
+  .decades-gallery-nav-button svg {
+    @media screen and (max-width: 623px) {
+      height: 15px;
+    }
+  }
+
+  [contenteditable] {
+    border: 1px dotted $decades-blue;
+  }
+
+  button {
+    margin-top: 24px;
+  }
+</style>
+
+{#each items as item}
+<figure class="decades-gallery-item {item.className}">
+  <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
+  <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{item.caption.date}</span> {item.caption.title} <p class="body-text">{item.caption.text} <span class="credit">{item.caption.credit}</span></p></figcaption>
+</figure>
+{/each}
+
+<GalleryItemHelper>
+  <figure class="decades-gallery-item is-template" slot="new-gallery-item">
+    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{src}">
+    <label for="image-type">Full-width Image:</label>
+    <input id="image-type" class="image-type" name="image-full-width" type="checkbox" bind:checked={isFullWidth}>
+    <label for="image-src">Image URL at 2x:</label>
+    <input id="image-src" name="image-src" type="text" placeholder="Image URL" bind:value={src}>
+    <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable="true" bind:this={year}>19XX</span> <span contenteditable="true" bind:this={title}>Title</span> <p class="body-text"><span contenteditable="true" bind:this={text}>Body text tk.</span> <span class="credit" contenteditable="true" bind:this={credit}>Photo Credit TK</span></p></figcaption>
+  </figure>
+
+  <button slot="add-new-gallery-item-button" type="button" on:click={addNewPhoto}>Add New Gallery Item</button>
+</GalleryItemHelper>
