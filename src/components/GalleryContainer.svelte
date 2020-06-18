@@ -282,6 +282,6 @@
   }
 </style>
 
-<section class="decades-container">
+<article class="decades-container">
   <GalleryItem />
-</section>
+</article>
