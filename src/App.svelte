@@ -1,7 +1,12 @@
 <script>
 	import Opener from './components/Opener.svelte';
 	import StickyHeader from './components/StickyHeader.svelte';
+	import AttributeGetter from './components/AttributeGetter.svelte';
 	import GalleryContainer from './components/GalleryContainer.svelte';
+
+	let accentColor;
+	let highlightColor;
+	let analytics;
 </script>
 
 <svelte:head>
@@ -15,8 +20,13 @@
 	}
 </style>
 
-<main>
+<main style="{accentColor ? `--decades-accent: ${accentColor};` : ''}{highlightColor ? `--decades-accent-active: ${highlightColor};` : ''}" data-analytics="{analytics}">
 	<Opener />
 	<StickyHeader />
+	<AttributeGetter>
+		<input id="accent-color" name="accent-color" type="text" placeholder="#d00" bind:value={accentColor} accentColor={accentColor} slot="new-accent-color" />
+		<input id="highlight-color" name="highlight-color" type="text" placeholder="" bind:value={highlightColor} highlightColor={highlightColor} slot="new-highlight-color" />
+		<input id="analytics-name" name="analytics-name" type="text" placeholder="cowboy-60" bind:value={analytics} analytics={analytics} slot="new-analytics-name" />
+	</AttributeGetter>
 	<GalleryContainer />
 </main>
