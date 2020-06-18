@@ -1,7 +1,10 @@
 <script>
   import { fade } from 'svelte/transition';
+  import { createEventDispatcher } from 'svelte';
 
   export let images = {};
+
+  const dispatch = createEventDispatcher();
 
   let _el;
   let callToAction = 'Expand';
@@ -15,9 +18,34 @@
       callToAction = 'Expand';
     }
   }
+
+  /**
+   * Dispatch a message indicating a particular image should be deleted
+   * @event event The click event
+   */
+  function deleteOpenerImage( event ) {
+    const data = event.target.parentElement;
+    const index = +data.dataset.index;
+    const type = data.dataset.type;
+
+    // if ( 'desktop' === type ) {
+    //   images.desktop.splice( index, 1 );
+    //   images.desktop = images.desktop;
+    // } else {
+    //   images.mobile.splice( index, 1 );
+    //   images.mobile = images.mobile;
+    // }
+
+    dispatch( 'deleteimage', {
+      index: index,
+      type: type
+    } );
+  }
 </script>
 
-<style>
+<style type="text/scss">
+  @import '../styles/vars';
+
   .decades-maker-new-header-image {
     background-color: #fff;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
@@ -54,13 +82,11 @@
 
   .desktop-images {
     height: auto;
-    margin-bottom: 16px;
     width: 200px;
   }
 
   .mobile-images {
     height: 200px;
-    margin-bottom: 16px;
     width: auto;
   }
 
@@ -83,6 +109,43 @@
   .decades-maker-new-header-image-header {
     height: 40px;
   }
+
+  :global(.decades-opener-images-figure) {
+    align-items: center;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 20px 10px;
+    position: relative;
+    transition: border-color 0.25s ease-in-out;
+    width: 100%;
+
+    &:hover {
+      border-color: $decades-grey-3;
+    }
+  }
+
+  :global(.decades-opener-image-delete-button) {
+    background-color: transparent;
+    border: none;
+    bottom: 0;
+    color: $decades-red;
+    cursor: pointer;
+    font: 400 13px/1 Arial, sans-serif;
+    height: 20px;
+    outline: none;
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    text-decoration: underline;
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  :global(.decades-opener-images-figure:hover .decades-opener-image-delete-button) {
+    opacity: 1;
+  }
 </style>
 
 <aside class="decades-maker-new-header-image" bind:this={_el}>
@@ -93,8 +156,11 @@
   <div class="decades-maker-new-header-image-desktop">
     <strong>Desktop Images</strong>
     <div class="decades-maker-new-header-images-desktop">
-      {#each images.desktop as desktopImage}
+      {#each images.desktop as desktopImage, index}
+      <figure class="decades-opener-images-figure" data-index="{index}" data-type="desktop">
         <img class="desktop-images" in:fade="{{ duration: 250 }}" {...desktopImage}>
+        <button class="decades-opener-image-delete-button" type="button" title="Delete this image" on:click={deleteOpenerImage}>Delete Image</button>
+      </figure>
       {/each}
     </div>
   </div>
@@ -102,8 +168,11 @@
   <div class="decades-maker-new-header-image-mobile">
     <strong>Mobile Images</strong>
     <div class="decades-maker-new-header-images-mobile">
-      {#each images.mobile as mobileImage}
+      {#each images.mobile as mobileImage, index}
+      <figure class="decades-opener-images-figure" data-index="{index}" data-type="mobile">
         <img class="mobile-images" in:fade="{{ duration: 250 }}" {...mobileImage}>
+        <button class="decades-opener-image-delete-button" type="button" title="Delete this image" on:click={deleteOpenerImage}>Delete Image</button>
+      </figure>
       {/each}
     </div>
   </div>

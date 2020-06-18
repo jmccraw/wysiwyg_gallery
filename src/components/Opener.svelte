@@ -71,6 +71,22 @@
     }, 250 );
   }
 
+  /**
+   * Receive the delete image request, and then see which image needs to be removed
+   * @event event The dispatch event
+   */
+  function deleteImage( event ) {
+    if ( 'desktop' === event.detail.type ) {
+      desktopImages.splice( event.detail.index, 1 );
+      desktopImages = desktopImages;
+      images.desktop = desktopImages;
+    } else {
+      mobileImages.splice( event.detail.index, 1 );
+      mobileImages = mobileImages;
+      images.mobile = mobileImages;
+    }
+  }
+
   onMount( () => {
     window.setTimeout( () => {
       isActive = true;
@@ -78,7 +94,9 @@
   } );
 </script>
 
-<style>
+<style type="text/scss">
+  @import '../styles/vars';
+
   :root {
     --decades-vh: 100vh;
     --t-delay: 0.5s;
@@ -394,6 +412,10 @@
     stroke: #fff;
     transition: stroke 0.25s ease-in-out;
   }
+
+  [contenteditable] {
+    border: 1px dotted $decades-blue;
+  }
 </style>
 
 <header class="decades-opener" class:is-active={isActive} bind:this={_opener}>
@@ -409,10 +431,10 @@
     {/each}
   </div>
 
-  <h1 class="decades-opener-hed headline">{hed}</h1>
+  <h1 class="decades-opener-hed headline" contenteditable>{hed}</h1>
   <p class="decades-opener-dek deck">{dek} <button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
-  <OpenerHelper {images}>
+  <OpenerHelper {images} on:deleteimage={deleteImage}>
     <input slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="Desktop Image URL" required="true" bind:value={desktopSrc} />
     <input slot="decades-maker-new-header-image-mobile-src" type="text" placeholder="Mobile Image URL" required="true" bind:value={mobileSrc} />
     <input slot="decades-maker-new-header-image-alt" type="text" placeholder="Optional alt text for visually impaired" required="false" bind:value={altText} />
