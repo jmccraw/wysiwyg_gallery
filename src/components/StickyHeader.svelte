@@ -51,6 +51,7 @@
 
   .decades-opener-sticky-logo:hover svg g {
     fill: $decades-blue;
+    fill: var(--decades-accent, $decades-blue);
   }
 
   .decades-opener-sticky-social-container {
@@ -82,6 +83,7 @@
   .decades-opener-sticky-facebook-button:hover svg path {
     @media screen and (min-width: 768px) {
       fill: $decades-blue;
+      fill: var(--decades-accent, $decades-blue);
     }
   }
 </style>

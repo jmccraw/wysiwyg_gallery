@@ -135,6 +135,7 @@
 
   .decades-gallery-item {
     border-top: 1px solid $decades-blue;
+    border-top: 1px solid var(--decades-accent, $decades-blue);
     flex-shrink: 0;
     margin: 0 auto 21px;
     max-width: 600px;
@@ -167,6 +168,7 @@
 
   .decades-gallery-item .body-text a {
     border-bottom: 1px dotted $decades-blue;
+    border-bottom: 1px dotted var(--decades-accent, $decades-blue);
     color: currentColor;
     text-decoration: none;
     transition: color 0.25s ease-in-out;
@@ -181,6 +183,7 @@
     &:active {
       border-bottom: 1px solid currentColor;
       color: $decades-blue;
+      color: var(--decades-accent, $decades-blue);
     }
   }
 
@@ -305,6 +308,7 @@
 
   .decades-gallery-date {
     color: $decades-blue;
+    color: var(--decades-accent, $decades-blue);
     line-height: 21px;
   }
 
