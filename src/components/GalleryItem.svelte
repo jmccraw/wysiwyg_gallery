@@ -2,10 +2,13 @@
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import GalleryItemHelper from './GalleryItemHelper.svelte';
+  import GalleryItemHeaderHelper from './GalleryItemHeaderHelper.svelte';
+  import GalleryItemTextHelper from './GalleryItemTextHelper.svelte';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
 
   let items = [
     {
+      type: 'image',
       classList: 'is-borderless',
       imageClass: '',
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/1959_cowboys.jpg',
@@ -17,6 +20,7 @@
       }
     },
     {
+      type: 'image',
       classList: '',
       imageClass: '',
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/1960_cowboys-v2.jpg',
@@ -28,6 +32,7 @@
       }
     },
     {
+      type: 'image',
       classList: '',
       imageClass: '',
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/1967_cowboys.jpg',
@@ -54,6 +59,7 @@
   function addNewPhoto() {
     isInitial = false;
     items = items.concat( {
+      type: 'image',
       classList: '',
       imageClass: isFullWidth ? 'is-full-width' : '',
       src: src,
@@ -87,6 +93,36 @@
 
     items.splice( +event.target.dataset.index, 1 );
     items = items;
+  }
+
+  /**
+   * Receive a message to add a new header item to the page
+   * @event event The dispatch event
+   */
+  function addNewHeaderItem( event ) {
+    isInitial = false;
+    const header = event.detail.header;
+    const subheader = event.detail.subheader;
+
+    items = items.concat( {
+      type: 'header',
+      header: header,
+      subheader: subheader
+    } );
+  }
+
+  /**
+   * Receive a message to add a new paragraph item to the page
+   * @event event The dispatch event
+   */
+  function addNewParagraph( event ) {
+    isInitial = false;
+    const text = event.detail.text;
+
+    items = items.concat( {
+      type: 'paragraph',
+      text: text
+    } );
   }
 
   onMount( () => {
@@ -487,6 +523,164 @@
     }
   }
 
+  // Header/Subheader Styles
+  .decades-container-hed {
+    color: $decades-red;
+    display: inline-block;
+    font-size: 200px;
+    margin-left: calc(50% - 268px); // half the screen, minus half the well width // 232px; // calc((1000px - 536px) / 2) 1000px gallery, with 536px well
+    margin-top: 48px;
+    line-height: 0.75;
+    opacity: 0;
+    padding: 12px 0 21px;
+    position: relative;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(-24px);
+    z-index: 3;
+
+    &::before,
+    &::after {
+      background-color: $decades-red;
+      bottom: -7px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      content: '';
+      height: 8px;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+
+    &::after {
+      bottom: auto;
+      top: -7px;
+
+      @media screen and (min-width: 376px) and (max-width: 623px) {
+        top: -9px;
+      }
+    }
+
+    @media screen and (max-width: 999px) {
+      font-size: 148px;
+      margin-left: calc((100vw - 600px) / 2);
+      padding-bottom: 14px;
+      padding-top: 9px;
+      transform: translateX(0);
+    }
+
+    @media screen and (max-width: 623px) {
+      font-size: 100px;
+      margin-left: 24px;
+      padding-bottom: 7px;
+      padding-top: 7px;
+    }
+
+    @media screen and (max-width: 359px) {
+      margin-left: 16px;
+    }
+  }
+
+  .decades-container-hed.no-motion {
+    color: $decades-red;
+    display: block;
+    font-size: 30px;
+    line-height: 0.87;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 70px;
+    opacity: 1;
+    text-align: center;
+    text-shadow: none;
+    transition: color 0.25s ease-in-out 0.35s;
+    width: calc(100% - 32px);
+
+    &::before {
+      display: none;
+    }
+
+    @media screen and (min-width: 375px) {
+      width: calc(100% - 36px);
+    }
+
+    @media screen and (min-width: 414px) {
+      padding-bottom: 8px;
+      padding-top: 15px;
+      width: calc(100% - 72px);
+    }
+
+    @media screen and (min-width: 664px) {
+      width: 100%;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 48px;
+      letter-spacing: 0.3px;
+      line-height: 1.13;
+      margin-top: 83px;
+      padding-bottom: 13px;
+    }
+  }
+
+  .decades-container:first-of-type .decades-container-hed.no-motion {
+    margin-top: 72px;
+
+    @media screen and (min-width: 768px) {
+      margin-top: 106px;
+    }
+  }
+
+  .decades-container-hed.no-motion::after {
+    background-color: #000;
+    box-shadow: none;
+    height: 6px;
+    top: -38px;
+    transition: height 0.25s ease-in-out 0.25s;
+
+    @media screen and (min-width: 768px) {
+      top: -62px;
+    }
+  }
+
+  .decades-container-hed.no-motion.is-lazy-thing::after {
+    height: 1px;
+  }
+
+  .decades-container-hed.no-motion .word-break {
+    display: block;
+
+    @media screen and (min-width: 768px) {
+      display: inline;
+    }
+  }
+
+  .decades-container-hed.no-motion .decades-container-hed-team.subhead.alt {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 30px;
+    opacity: 1;
+    position: relative;
+    text-transform: uppercase;
+    transition: opacity 0.25s ease-in-out 0.45s;
+
+    &::before {
+      background-color: currentColor;
+      content: '';
+      height: 1px;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: -16px;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 20px;
+      margin-top: 22px;
+      padding-top: 1px;
+    }
+  }
+
+  // Form Styles
+
   [contenteditable] {
     border: 1px dotted $decades-blue;
   }
@@ -497,11 +691,17 @@
 </style>
 
 {#each items as item, index}
-<figure class="decades-gallery-item {item.className}">
-  <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
-  <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
-  <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{item.caption.date}</span> {item.caption.title} <p class="body-text">{item.caption.text} <span class="credit">{item.caption.credit}</span></p></figcaption>
-</figure>
+{#if 'image' === item.type}
+  <figure class="decades-gallery-item {item.className}">
+    <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
+    <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
+    <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
+  </figure>
+{:else if 'header' === item.type}
+  <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
+{:else if 'paragraph' === item.type}
+  <p class="body-text serif">{@html item.text}</p>
+{/if}
 {/each}
 
 <GalleryItemHelper>
@@ -511,8 +711,12 @@
     <input id="image-type" class="image-type" name="image-full-width" type="checkbox" bind:checked={isFullWidth}>
     <label for="image-src">Image URL at 2x:</label>
     <input id="image-src" name="image-src" type="text" placeholder="Image URL" bind:value={src}>
-    <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable="true" bind:this={year}>19XX</span> <span contenteditable="true" bind:this={title}>Title</span> <p class="body-text"><span contenteditable="true" bind:this={text}>Body text tk.</span> <span class="credit" contenteditable="true" bind:this={credit}>Photo Credit TK</span></p></figcaption>
+    <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year}>19XX</span> <span contenteditable bind:this={title}>Title</span> <p class="body-text"><span contenteditable bind:this={text}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit}>Photo Credit TK</span></p></figcaption>
   </figure>
 
   <button slot="add-new-gallery-item-button" type="button" on:click={addNewPhoto}>Add New Gallery Item</button>
 </GalleryItemHelper>
+
+<GalleryItemHeaderHelper on:addheader={addNewHeaderItem} />
+
+<GalleryItemTextHelper on:addtext={addNewParagraph} />
