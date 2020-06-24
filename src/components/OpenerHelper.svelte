@@ -20,6 +20,15 @@
   }
 
   /**
+   * Dispatch a message indicating the headline should use serif font
+   */
+  function makeHedSerif() {
+    dispatch( 'makeserif', {
+      isserif: true
+    } );
+  }
+
+  /**
    * Dispatch a message indicating a particular image should be deleted
    * @event event The click event
    */
@@ -27,14 +36,6 @@
     const data = event.target.parentElement;
     const index = +data.dataset.index;
     const type = data.dataset.type;
-
-    // if ( 'desktop' === type ) {
-    //   images.desktop.splice( index, 1 );
-    //   images.desktop = images.desktop;
-    // } else {
-    //   images.mobile.splice( index, 1 );
-    //   images.mobile = images.mobile;
-    // }
 
     dispatch( 'deleteimage', {
       index: index,
@@ -152,6 +153,11 @@
   <header class="decades-maker-new-header-image-header">
     <button on:click={toggleImageAdder} type="button">{callToAction} Opener Image Editor</button>
   </header>
+
+  <div class="decades-maker-hed-text-serif">
+    <label for="hed-serif">Use serif font for title:</label>
+    <input id="hed-serif" name="hed-serif" type="checkbox" on:click={makeHedSerif} />
+  </div>
 
   <div class="decades-maker-new-header-image-desktop">
     <strong>Desktop Images</strong>

@@ -49,6 +49,7 @@
   let mobileSrc = '';
   let altText = '';
   let isActive = false;
+  let isSerif = false;
 
   let _opener;
 
@@ -85,6 +86,14 @@
       mobileImages = mobileImages;
       images.mobile = mobileImages;
     }
+  }
+
+  /**
+   * Receive the make hed serif request, and then toggle the class to make the title serif
+   * @event event The dispatch event
+   */
+  function makeHedSerif( event ) {
+    isSerif = ! isSerif;
   }
 
   onMount( () => {
@@ -431,10 +440,10 @@
     {/each}
   </div>
 
-  <h1 class="decades-opener-hed headline" contenteditable>{hed}</h1>
-  <p class="decades-opener-dek deck"><span contenteditable>{dek}</span> <span class="decades-opener-byline byline" contenteditable>By Charlotte Gibson</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
+  <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable>{@html hed}</h1>
+  <p class="decades-opener-dek deck"><span contenteditable>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable>By Charlotte Gibson</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
-  <OpenerHelper {images} on:deleteimage={deleteImage}>
+  <OpenerHelper {images} on:deleteimage={deleteImage} on:makeserif={makeHedSerif}>
     <input slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="Desktop Image URL" required="true" bind:value={desktopSrc} />
     <input slot="decades-maker-new-header-image-mobile-src" type="text" placeholder="Mobile Image URL" required="true" bind:value={mobileSrc} />
     <input slot="decades-maker-new-header-image-alt" type="text" placeholder="Optional alt text for visually impaired" required="false" bind:value={altText} />
