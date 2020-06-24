@@ -48,6 +48,9 @@
   let text;
   let credit;
 
+  /**
+   * Adds a new photo gallery item to the page
+   */
   function addNewPhoto() {
     isInitial = false;
     items = items.concat( {
@@ -68,6 +71,22 @@
     title.innerHTML = 'Title';
     text.innerHTML = 'Body text tk.';
     credit.innerHTML = 'Photo Credit TK';
+  }
+
+  /**
+   * Deletes the given gallery item
+   * @event event The click event origination
+   */
+  function deleteGalleryItem( event ) {
+    const index = +event.target.dataset.index;
+    isInitial = false;
+
+    if ( 0 === index && items[1] ) {
+      items[1].classList = items[0].classList;
+    }
+
+    items.splice( +event.target.dataset.index, 1 );
+    items = items;
   }
 
   onMount( () => {
@@ -477,8 +496,9 @@
   }
 </style>
 
-{#each items as item}
+{#each items as item, index}
 <figure class="decades-gallery-item {item.className}">
+  <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
   <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
   <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{item.caption.date}</span> {item.caption.title} <p class="body-text">{item.caption.text} <span class="credit">{item.caption.credit}</span></p></figcaption>
 </figure>
