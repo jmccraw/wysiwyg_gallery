@@ -44,6 +44,7 @@
   };
   export let hed = '60 years of Cowboys football';
   export let dek = 'This week 60 years ago, the Dallas pro football franchise became the Cowboys, and with it a long list of players, coaches and on-field plays and events have forged the team.';
+  export let byline = 'By Name McName';
 
   let desktopSrc = '';
   let mobileSrc = '';
@@ -441,7 +442,7 @@
   </div>
 
   <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable>{@html hed}</h1>
-  <p class="decades-opener-dek deck"><span contenteditable>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable>By Charlotte Gibson</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
+  <p class="decades-opener-dek deck"><span contenteditable>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
   <OpenerHelper {images} on:deleteimage={deleteImage} on:makeserif={makeHedSerif}>
     <input slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="Desktop Image URL" required="true" bind:value={desktopSrc} />
