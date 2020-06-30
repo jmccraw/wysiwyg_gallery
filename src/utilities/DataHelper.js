@@ -1,14 +1,22 @@
-const Sequelize = require( 'sequelize' );
+import Sequelize from 'sequelize';
 
-export const sequelize = new Sequelize( 'galleries', 'user', 'pass', {
+const sequelize = new Sequelize( 'gallery', 'mccrawj', '', {
   host: 'localhost',
-  dialect: 'postgres'
+  dialect: 'postgres',
+  port: 5432
 } );
 
-const Gallery = sequelize.define( 'gallery', {
+// sequelize.authenticate()
+//   .then( err => {
+//     console.log( 'Connection established' );
+//   }, err => {
+//     console.error( 'Connection unavailable', err );
+//   } );
+
+const Gallery = sequelize.define( 'Gallery', {
   hed: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   },
   dek: {
     type: Sequelize.STRING,
@@ -20,6 +28,12 @@ const Gallery = sequelize.define( 'gallery', {
   },
   openerImages: {
     type: Sequelize.JSON,
-    allowNull: false
+    allowNull: true
   }
 }, {} );
+
+export function setData( entry ) {
+  Gallery.sync( { force: true } ).then( () => {
+    return Gallery.create( entry );
+  } );
+}
