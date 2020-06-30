@@ -1,8 +1,9 @@
 <script>
   import OpenerHelper from './OpenerHelper.svelte';
   import { onMount } from 'svelte';
+  import { storeValue, getValue } from '../utilities/LocalStore.js';
 
-  export let desktopImages = [
+  let desktopImages = [
     {
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_desktop_1.jpg',
       alt: 'Cowboys opener image'
@@ -20,7 +21,7 @@
       alt: 'Cowboys opener image 4'
     }
   ];
-  export let mobileImages = [
+  let mobileImages = [
     {
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_mobile_1-v3.jpg',
       alt: 'Cowboys opener mobile image'
@@ -38,21 +39,46 @@
       alt: 'Cowboys opener mobile image 4'
     }
   ];
-  export let images = {
+  let images = {
     desktop: desktopImages,
     mobile: mobileImages
   };
-  export let hed = '60 years of Cowboys football';
-  export let dek = 'This week 60 years ago, the Dallas pro football franchise became the Cowboys, and with it a long list of players, coaches and on-field plays and events have forged the team.';
-  export let byline = 'By Name McName';
+  let hed = getValue( 'hed', null ) || '60 years of Cowboys football';
+  let dek = getValue( 'dek', null ) || 'This week 60 years ago, the Dallas pro football franchise became the Cowboys, and with it a long list of players, coaches and on-field plays and events have forged the team.';
+  let byline = getValue( 'byline', null ) || 'By Name McName';
 
   let desktopSrc = '';
   let mobileSrc = '';
   let altText = '';
   let isActive = false;
   let isSerif = false;
-
   let _opener;
+
+  /**
+   * On text element blur, save this new value
+   * @event event The blur event
+   */
+  function storeTextChange( event, element ) {
+    const entry = {};
+    const newHTML = event.target.innerHTML;
+
+    if ( 'hed' === element ) {
+      hed = newHTML;
+      entry.hed = hed;
+      storeValue( 'hed', hed );
+    } else if ( 'dek' === element ) {
+      dek = newHTML;
+      entry.dek = dek;
+      storeValue( 'dek', dek );
+    } else if ( 'byline' === element ) {
+      byline = newHTML;
+      entry.byline = byline;
+      storeValue( 'byline', byline );
+    }
+
+    window.console.log( 'ENTRY:', entry );
+    // setData( entry );
+  }
 
   function addNewOpenerImage() {
     desktopImages = desktopImages.concat({ src: desktopSrc, alt: altText });
@@ -441,8 +467,8 @@
     {/each}
   </div>
 
-  <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable>{@html hed}</h1>
-  <p class="decades-opener-dek deck"><span contenteditable>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
+  <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable on:blur={e => { storeTextChange( e, 'hed' ); }}>{@html hed}</h1>
+  <p class="decades-opener-dek deck"><span contenteditable on:blur={e => { storeTextChange( e, 'dek' ); }}>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable on:blur={e => { storeTextChange( e, 'byline' ); }}>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
   <OpenerHelper {images} on:deleteimage={deleteImage} on:makeserif={makeHedSerif}>
     <input slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="Desktop Image URL" required="true" bind:value={desktopSrc} />
