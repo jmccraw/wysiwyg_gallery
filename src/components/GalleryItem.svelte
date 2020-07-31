@@ -44,7 +44,7 @@
       caption: {
         date: '1967',
         title: 'Cold as ice',
-        text: 'Quarterback Bart Starr scored on a sneak with 13 seconds to play as Green Bay wins the NFL championship against the Cowboys in the "Ice Bowl." Game-time temperature at Lambeau Field was -15 degrees with a wind chill of -48.',
+        text: 'Quarterback Bart Starr scored on a sneak with 13 seconds to play as Green Bay wins the NFL championship against the Cowboys in the “Ice Bowl.” Game-time temperature at Lambeau Field was -15 degrees with a wind chill of -48.',
         credit: 'Press-Gazette/USA TODAY Sports'
       }
     }
@@ -729,9 +729,15 @@
       <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
     </figure>
   {:else if 'header' === item.type}
-    <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
+    <div>
+      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
+      <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
+    </div>
   {:else if 'paragraph' === item.type}
-    <p class="body-text serif">{@html item.text}</p>
+    <div>
+      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
+      <p class="body-text serif">{@html item.text}</p>
+    </div>
   {/if}
 {/each}
 </article>
