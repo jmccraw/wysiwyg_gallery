@@ -3,10 +3,35 @@
 	import StickyHeader from './components/StickyHeader.svelte';
 	import AttributeSetter from './components/AttributeSetter.svelte';
 	import GalleryContainer from './components/GalleryContainer.svelte';
+	import { storeValue, getValue } from './utilities/LocalStore.js';
 
-	let accentColor;
-	let highlightColor;
-	let analytics;
+	let accentColor = getValue( 'accentColor', 'string' ) || '';
+	let highlightColor = getValue( 'highlightColor', 'string' ) || '';
+	let analytics = getValue( 'analytics', 'string' ) || '';
+
+	/**
+	 * Store the accent color on blur
+	 */
+	function storeAccent() {
+		window.console.log( 'New Accent: ', accentColor );
+		storeValue( 'accentColor', accentColor );
+	}
+
+	/**
+	 * Store the highlight color on blur
+	 */
+	function storeHighlight() {
+		window.console.log( 'New Highlight: ', highlightColor );
+		storeValue( 'highlightColor', highlightColor );
+	}
+
+	/**
+	 * Store the analytics phrase on blur
+	 */
+	function storeAnalytics() {
+		window.console.log( 'New Analytics Phrase: ', analytics );
+		storeValue( 'analytics', analytics );
+	}
 </script>
 
 <svelte:head>
@@ -24,9 +49,9 @@
 	<Opener />
 	<StickyHeader />
 	<AttributeSetter>
-		<input id="accent-color" name="accent-color" type="text" placeholder="#d00" bind:value={accentColor} accentColor={accentColor} slot="new-accent-color" />
-		<input id="highlight-color" name="highlight-color" type="text" placeholder="" bind:value={highlightColor} highlightColor={highlightColor} slot="new-highlight-color" />
-		<input id="analytics-name" name="analytics-name" type="text" placeholder="cowboy-60" bind:value={analytics} analytics={analytics} slot="new-analytics-name" />
+		<input id="accent-color" name="accent-color" type="text" placeholder="#d00" bind:value={accentColor} accentColor={accentColor} on:blur={storeAccent} slot="new-accent-color" />
+		<input id="highlight-color" name="highlight-color" type="text" placeholder="" bind:value={highlightColor} highlightColor={highlightColor} on:blur={storeHighlight} slot="new-highlight-color" />
+		<input id="analytics-name" name="analytics-name" type="text" placeholder="cowboy-60" bind:value={analytics} analytics={analytics} on:blur={storeAnalytics} slot="new-analytics-name" />
 	</AttributeSetter>
 	<GalleryContainer />
 </main>
