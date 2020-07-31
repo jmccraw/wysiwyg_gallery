@@ -4,10 +4,12 @@
   import GalleryItemHelper from './GalleryItemHelper.svelte';
   import GalleryItemHeaderHelper from './GalleryItemHeaderHelper.svelte';
   import GalleryItemTextHelper from './GalleryItemTextHelper.svelte';
+  import { dndzone } from 'svelte-dnd-action';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
 
   let items = [
     {
+      id: 1,
       type: 'image',
       classList: 'is-borderless',
       imageClass: '',
@@ -20,6 +22,7 @@
       }
     },
     {
+      id: 2,
       type: 'image',
       classList: '',
       imageClass: '',
@@ -32,6 +35,7 @@
       }
     },
     {
+      id: 3,
       type: 'image',
       classList: '',
       imageClass: '',
@@ -45,6 +49,7 @@
     }
   ];
 
+  let currID = items.length;
   let isInitial = true;
   let src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
   let isFullWidth = false;
@@ -59,6 +64,7 @@
   function addNewPhoto() {
     isInitial = false;
     items = items.concat( {
+      id: ++currID,
       type: 'image',
       classList: '',
       imageClass: isFullWidth ? 'is-full-width' : '',
@@ -123,6 +129,16 @@
       type: 'paragraph',
       text: text
     } );
+  }
+
+  function handleDndConsider(e) {
+    isInitial = false;
+    items = e.detail.items;
+  }
+
+  function handleDndFinalize(e) {
+    isInitial = false;
+    items = e.detail.items;
   }
 
   onMount( () => {
@@ -690,19 +706,21 @@
   }
 </style>
 
-{#each items as item, index}
-{#if 'image' === item.type}
-  <figure class="decades-gallery-item {item.className}">
-    <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
-    <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
-    <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
-  </figure>
-{:else if 'header' === item.type}
-  <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
-{:else if 'paragraph' === item.type}
-  <p class="body-text serif">{@html item.text}</p>
-{/if}
+<article use:dndzone={{items: items}} on:consider={handleDndConsider} on:finalize={handleDndFinalize}>
+{#each items as item, index (item.id)}
+  {#if 'image' === item.type}
+    <figure class="decades-gallery-item {item.className}">
+      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
+      <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
+      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
+    </figure>
+  {:else if 'header' === item.type}
+    <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
+  {:else if 'paragraph' === item.type}
+    <p class="body-text serif">{@html item.text}</p>
+  {/if}
 {/each}
+</article>
 
 <GalleryItemHelper>
   <figure class="decades-gallery-item is-template" slot="new-gallery-item">
