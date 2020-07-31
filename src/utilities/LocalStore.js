@@ -18,7 +18,7 @@ export function getValue( key, format ) {
   const value = storage[key];
 
   if ( ! value ) {
-    return;
+    return false;
   }
 
   if ( 'object' === format ) {
