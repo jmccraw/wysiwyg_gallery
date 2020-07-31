@@ -5,36 +5,44 @@
 
   let desktopImages = [
     {
+      id: 1,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_desktop_1.jpg',
       alt: 'Cowboys opener image'
     },
     {
+      id: 2,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_desktop_2.jpg',
       alt: 'Cowboys opener image 2'
     },
     {
+      id: 3,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_desktop_4.jpg',
       alt: 'Cowboys opener image 3'
     },
     {
+      id: 4,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_desktop_5.jpg',
       alt: 'Cowboys opener image 4'
     }
   ];
   let mobileImages = [
     {
+      id: 1,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_mobile_1-v3.jpg',
       alt: 'Cowboys opener mobile image'
     },
     {
+      id: 2,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_mobile_2-v3.jpg',
       alt: 'Cowboys opener mobile image 2'
     },
     {
+      id: 3,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_mobile_3-v3.jpg',
       alt: 'Cowboys opener mobile image 3'
     },
     {
+      id: 4,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_mobile_4-v3.jpg',
       alt: 'Cowboys opener mobile image 4'
     }
@@ -77,7 +85,6 @@
     }
 
     window.console.log( 'ENTRY:', entry );
-    // setData( entry );
   }
 
   function addNewOpenerImage() {
@@ -97,6 +104,18 @@
     window.setTimeout( () => {
       isActive = true;
     }, 250 );
+  }
+
+  /**
+   * Receive the adjust images request, and then see which image sets to adjust
+   * @event event The dispatch event
+   */
+  function adjustImages( event ) {
+    if ( 'desktop' === event.detail.type ) {
+      desktopImages = event.detail.items;
+    } else {
+      mobileImages = event.detail.items;
+    }
   }
 
   /**
@@ -456,21 +475,21 @@
 
 <header class="decades-opener" class:is-active={isActive} bind:this={_opener}>
   <div class="decades-opener-images is-desktop">
-    {#each desktopImages as desktopImage}
+    {#each desktopImages as desktopImage(desktopImage.id)}
       <img class="decades-opener-image is-desktop" {...desktopImage}>
     {/each}
   </div>
 
   <div class="decades-opener-images is-mobile">
-    {#each mobileImages as mobileImage}
-      <img class="decades-opener-image is-mobile" {...mobileImage}>
+    {#each mobileImages as mobileImage(mobileImage.id)}
+      <img class="decades-opener-image is-mobile" {...mobileImage}>>
     {/each}
   </div>
 
   <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable on:blur={e => { storeTextChange( e, 'hed' ); }}>{@html hed}</h1>
   <p class="decades-opener-dek deck"><span contenteditable on:blur={e => { storeTextChange( e, 'dek' ); }}>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable on:blur={e => { storeTextChange( e, 'byline' ); }}>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
-  <OpenerHelper {images} on:deleteimage={deleteImage} on:makeserif={makeHedSerif}>
+  <OpenerHelper {images} on:deleteimage={deleteImage} on:adjustimages={adjustImages} on:makeserif={makeHedSerif}>
     <input slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="Desktop Image URL" required="true" bind:value={desktopSrc} />
     <input slot="decades-maker-new-header-image-mobile-src" type="text" placeholder="Mobile Image URL" required="true" bind:value={mobileSrc} />
     <input slot="decades-maker-new-header-image-alt" type="text" placeholder="Optional alt text for visually impaired" required="false" bind:value={altText} />

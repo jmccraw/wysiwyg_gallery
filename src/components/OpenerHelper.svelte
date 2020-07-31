@@ -1,6 +1,7 @@
 <script>
   import { fade } from 'svelte/transition';
   import { createEventDispatcher } from 'svelte';
+  import { dndzone } from 'svelte-dnd-action';
 
   export let images = {};
 
@@ -40,6 +41,31 @@
     dispatch( 'deleteimage', {
       index: index,
       type: type
+    } );
+  }
+
+  function handleDndConsiderDesktop(e) {
+    // window.console.log( e );
+    images.desktop = e.detail.items;
+  }
+
+  function handleDndFinalizeDesktop(e) {
+    images.desktop = e.detail.items;
+    dispatch( 'adjustimages', {
+      items: e.detail.items,
+      type: 'desktop'
+    } );
+  }
+
+  function handleDndConsiderMobile(e) {
+    images.mobile = e.detail.items;
+  }
+
+  function handleDndFinalizeMobile(e) {
+    images.mobile = e.detail.items;
+    dispatch( 'adjustimages', {
+      items: e.detail.items,
+      type: 'mobile'
     } );
   }
 </script>
@@ -161,8 +187,8 @@
 
   <div class="decades-maker-new-header-image-desktop">
     <strong>Desktop Images</strong>
-    <div class="decades-maker-new-header-images-desktop">
-      {#each images.desktop as desktopImage, index}
+    <div class="decades-maker-new-header-images-desktop" use:dndzone={{items: images.desktop}} on:consider={handleDndConsiderDesktop} on:finalize={handleDndFinalizeDesktop} type="desktop">
+      {#each images.desktop as desktopImage, index (desktopImage.id)}
       <figure class="decades-opener-images-figure" data-index="{index}" data-type="desktop">
         <img class="desktop-images" in:fade="{{ duration: 250 }}" {...desktopImage}>
         <button class="decades-opener-image-delete-button" type="button" title="Delete this image" on:click={deleteOpenerImage}>Delete Image</button>
@@ -173,8 +199,8 @@
 
   <div class="decades-maker-new-header-image-mobile">
     <strong>Mobile Images</strong>
-    <div class="decades-maker-new-header-images-mobile">
-      {#each images.mobile as mobileImage, index}
+    <div class="decades-maker-new-header-images-mobile" use:dndzone={{items: images.mobile}} on:consider={handleDndConsiderMobile} on:finalize={handleDndFinalizeMobile} type="mobile">
+      {#each images.mobile as mobileImage, index (mobileImage.id)}
       <figure class="decades-opener-images-figure" data-index="{index}" data-type="mobile">
         <img class="mobile-images" in:fade="{{ duration: 250 }}" {...mobileImage}>
         <button class="decades-opener-image-delete-button" type="button" title="Delete this image" on:click={deleteOpenerImage}>Delete Image</button>
