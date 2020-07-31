@@ -9,6 +9,8 @@
    * @event event The click event
    */
   function dispatchNewParagraph( event ) {
+    if ( undefined === text ) return;
+
     dispatch( 'addtext', {
       text: text
     } );

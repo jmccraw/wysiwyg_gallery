@@ -11,6 +11,7 @@
    */
   function dispatchNewHeader( event ) {
     window.console.log( 'DISPATCHING: ', header, subheader );
+    if ( undefined === header ) return;
 
     dispatch( 'addheader', {
       header: header,
