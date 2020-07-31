@@ -6,8 +6,9 @@
   import GalleryItemTextHelper from './GalleryItemTextHelper.svelte';
   import { dndzone } from 'svelte-dnd-action';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
+  import { storeValue, getValue } from '../utilities/LocalStore.js';
 
-  let items = [
+  let items = getValue( 'items', 'object' ) || [
     {
       id: 1,
       type: 'image',
@@ -86,6 +87,13 @@
   }
 
   /**
+   * Saves the items array to localstorage
+   */
+  function saveItems() {
+    storeValue( 'items', items );
+  }
+
+  /**
    * Deletes the given gallery item
    * @event event The click event origination
    */
@@ -99,6 +107,7 @@
 
     items.splice( +event.target.dataset.index, 1 );
     items = items;
+    saveItems();
   }
 
   /**
@@ -111,10 +120,12 @@
     const subheader = event.detail.subheader;
 
     items = items.concat( {
+      id: ++currID,
       type: 'header',
       header: header,
       subheader: subheader
     } );
+    saveItems();
   }
 
   /**
@@ -126,9 +137,11 @@
     const text = event.detail.text;
 
     items = items.concat( {
+      id: ++currID,
       type: 'paragraph',
       text: text
     } );
+    saveItems();
   }
 
   function handleDndConsider(e) {
@@ -139,6 +152,7 @@
   function handleDndFinalize(e) {
     isInitial = false;
     items = e.detail.items;
+    saveItems();
   }
 
   onMount( () => {
