@@ -87,9 +87,20 @@
     window.console.log( 'ENTRY:', entry );
   }
 
+  /**
+   * Add a new opener image to the gallery, but do so in a way that takes into
+   * account mobile and desktop separately
+   */
   function addNewOpenerImage() {
-    desktopImages = desktopImages.concat({ src: desktopSrc, alt: altText });
-    mobileImages = mobileImages.concat({ src: mobileSrc, alt: altText });
+    if ( '' === desktopSrc && '' === mobileSrc ) return;
+
+    if ( '' !== desktopSrc ) {
+      desktopImages = desktopImages.concat({ src: desktopSrc, alt: altText });
+    }
+
+    if ( '' !== mobileSrc ) {
+      mobileImages = mobileImages.concat({ src: mobileSrc, alt: altText });
+    }
 
     images = {
       desktop: desktopImages,
