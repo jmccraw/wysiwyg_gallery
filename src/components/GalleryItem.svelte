@@ -4,6 +4,8 @@
   import GalleryItemHelper from './GalleryItemHelper.svelte';
   import GalleryItemHeaderHelper from './GalleryItemHeaderHelper.svelte';
   import GalleryItemTextHelper from './GalleryItemTextHelper.svelte';
+  import GallerySlideshow from './GallerySlideshow.svelte';
+  import GallerySlideshowHelper from './GallerySlideshowHelper.svelte';
   import { dndzone } from 'svelte-dnd-action';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
@@ -67,6 +69,33 @@
     items = items.concat( {
       id: ++currID,
       type: 'image',
+      classList: '',
+      imageClass: isFullWidth ? 'is-full-width' : '',
+      src: src,
+      caption: {
+        date: year.innerHTML,
+        title: title.innerHTML,
+        text: text.innerHTML,
+        credit: credit.innerHTML
+      }
+    } );
+
+    isFullWidth = false;
+    src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    year.innerHTML = '19XX';
+    title.innerHTML = 'Title';
+    text.innerHTML = 'Body text tk.';
+    credit.innerHTML = 'Photo Credit TK';
+  }
+
+  /**
+   * Adds a new gallery slideshow option to the page
+   */
+  function addNewSlideshow() {
+    isInitial = false;
+    items = items.concat( {
+      id: ++currID,
+      type: 'gallery',
       classList: '',
       imageClass: isFullWidth ? 'is-full-width' : '',
       src: src,
@@ -724,23 +753,32 @@
 {#each items as item, index (item.id)}
   {#if 'image' === item.type}
     <figure class="decades-gallery-item {item.className}">
-      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
+      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Image</button>
       <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
       <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
     </figure>
+  {:else if 'gallery' === item.type}
+    <div>
+      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Slideshow</button>
+      <GallerySlideshow {...item} index={index} />
+    </div>
   {:else if 'header' === item.type}
     <div>
-      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
+      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Header</button>
       <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
     </div>
   {:else if 'paragraph' === item.type}
     <div>
-      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Gallery Item</button>
+      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Paragraph</button>
       <p class="body-text serif">{@html item.text}</p>
     </div>
   {/if}
 {/each}
 </article>
+
+<GalleryItemHeaderHelper on:addheader={addNewHeaderItem} />
+
+<GalleryItemTextHelper on:addtext={addNewParagraph} />
 
 <GalleryItemHelper>
   <figure class="decades-gallery-item is-template" slot="new-gallery-item">
@@ -752,9 +790,10 @@
     <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year}>19XX</span> <span contenteditable bind:this={title}>Title</span> <p class="body-text"><span contenteditable bind:this={text}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit}>Photo Credit TK</span></p></figcaption>
   </figure>
 
-  <button slot="add-new-gallery-item-button" type="button" on:click={addNewPhoto}>Add New Gallery Item</button>
+  <button slot="add-new-gallery-item-button" type="button" on:click={addNewPhoto}>Add New Image</button>
 </GalleryItemHelper>
 
-<GalleryItemHeaderHelper on:addheader={addNewHeaderItem} />
+<GallerySlideshowHelper>
 
-<GalleryItemTextHelper on:addtext={addNewParagraph} />
+  <button slot="add-new-gallery-slideshow-item-button" type="button" on:click={addNewSlideshow}>Add New Slideshow</button>
+</GallerySlideshowHelper>
