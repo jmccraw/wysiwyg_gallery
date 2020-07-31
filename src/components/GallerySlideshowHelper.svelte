@@ -16,6 +16,6 @@
 </style>
 
 <aside>
-  <slot name="new-gallery-item" class="gallery-item"></slot>
-  <slot name="add-new-gallery-item-button" class="add-button"></slot>
+  <slot name="new-gallery-slideshow-item" class="gallery-item"></slot>
+  <slot name="add-new-gallery-slideshow-item-button" class="add-button"></slot>
 </aside>
