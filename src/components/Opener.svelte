@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
 
-  let desktopImages = [
+  let desktopImages = getValue( 'desktopImages', 'object' ) || [
     {
       id: 1,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_desktop_1.jpg',
@@ -25,7 +25,7 @@
       alt: 'Cowboys opener image 4'
     }
   ];
-  let mobileImages = [
+  let mobileImages = getValue( 'mobileImages', 'object' ) || [
     {
       id: 1,
       src: 'https://a.espncdn.com/prod/styles/pagetype/otl/20200319_cowboys_60/images/opener/cowboys_opener_mobile_1-v3.jpg',
@@ -96,10 +96,12 @@
 
     if ( '' !== desktopSrc ) {
       desktopImages = desktopImages.concat({ src: desktopSrc, alt: altText });
+      storeValue( 'desktopImages', desktopImages );
     }
 
     if ( '' !== mobileSrc ) {
       mobileImages = mobileImages.concat({ src: mobileSrc, alt: altText });
+      storeValue( 'mobileImages', mobileImages );
     }
 
     images = {
@@ -124,8 +126,10 @@
   function adjustImages( event ) {
     if ( 'desktop' === event.detail.type ) {
       desktopImages = event.detail.items;
+      storeValue( 'desktopImages', desktopImages );
     } else {
       mobileImages = event.detail.items;
+      storeValue( 'mobileImages', mobileImages );
     }
   }
 
