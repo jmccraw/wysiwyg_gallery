@@ -54,12 +54,82 @@
 
   let currID = items.length;
   let isInitial = true;
-  let src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+  let imageSrc = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+  let slideSrc1 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+  let slideSrc2 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+  let slideSrc3 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+  let slideSrc4 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+  let slideSrc5 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
   let isFullWidth = false;
+  let isFullWidthSlideshow = false;
   let year;
   let title;
   let text;
   let credit;
+  let year1;
+  let year2;
+  let year3;
+  let year4;
+  let year5;
+  let title1;
+  let title2;
+  let title3;
+  let title4;
+  let title5;
+  let text1;
+  let text2;
+  let text3;
+  let text4;
+  let text5;
+  let credit1;
+  let credit2;
+  let credit3;
+  let credit4;
+  let credit5;
+
+  /**
+   * Resets the photo gallery item helper
+   */
+  function resetPhotoHelperItem() {
+    isFullWidth = false;
+    imageSrc = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    year.innerHTML = '19XX';
+    title.innerHTML = 'Title';
+    text.innerHTML = 'Body text tk.';
+    credit.innerHTML = 'Photo Credit TK';
+  }
+
+  /**
+   * Resets the gallery slideshow item helper
+   */
+  function resetSlideshowHelperItem() {
+    isFullWidthSlideshow = false;
+    slideSrc1 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    slideSrc2 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    slideSrc3 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    slideSrc4 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    slideSrc5 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+    year1.innerHTML = '19XX';
+    year2.innerHTML = '19XX';
+    year3.innerHTML = '19XX';
+    year4.innerHTML = '19XX';
+    year5.innerHTML = '19XX';
+    title1.innerHTML = 'Title';
+    title2.innerHTML = 'Title';
+    title3.innerHTML = 'Title';
+    title4.innerHTML = 'Title';
+    title5.innerHTML = 'Title';
+    text1.innerHTML = 'Body text tk.';
+    text2.innerHTML = 'Body text tk.';
+    text3.innerHTML = 'Body text tk.';
+    text4.innerHTML = 'Body text tk.';
+    text5.innerHTML = 'Body text tk.';
+    credit1.innerHTML = 'Photo Credit TK';
+    credit2.innerHTML = 'Photo Credit TK';
+    credit3.innerHTML = 'Photo Credit TK';
+    credit4.innerHTML = 'Photo Credit TK';
+    credit5.innerHTML = 'Photo Credit TK';
+  }
 
   /**
    * Adds a new photo gallery item to the page
@@ -71,7 +141,7 @@
       type: 'image',
       classList: '',
       imageClass: isFullWidth ? 'is-full-width' : '',
-      src: src,
+      src: imageSrc,
       caption: {
         date: year.innerHTML,
         title: title.innerHTML,
@@ -79,13 +149,7 @@
         credit: credit.innerHTML
       }
     } );
-
-    isFullWidth = false;
-    src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
-    year.innerHTML = '19XX';
-    title.innerHTML = 'Title';
-    text.innerHTML = 'Body text tk.';
-    credit.innerHTML = 'Photo Credit TK';
+    resetPhotoHelperItem();
   }
 
   /**
@@ -97,22 +161,56 @@
       id: ++currID,
       type: 'gallery',
       classList: '',
-      imageClass: isFullWidth ? 'is-full-width' : '',
-      src: src,
-      caption: {
-        date: year.innerHTML,
-        title: title.innerHTML,
-        text: text.innerHTML,
-        credit: credit.innerHTML
-      }
+      imageClass: isFullWidthSlideshow ? 'is-full-width' : '',
+      slides: [
+        {
+          src: slideSrc1,
+          caption: {
+            date: year1.innerHTML,
+            title: title1.innerHTML,
+            text: text1.innerHTML,
+            credit: credit1.innerHTML
+          }
+        },
+        {
+          src: slideSrc2,
+          caption: {
+            date: year2.innerHTML,
+            title: title2.innerHTML,
+            text: text2.innerHTML,
+            credit: credit2.innerHTML
+          }
+        },
+        {
+          src: slideSrc3,
+          caption: {
+            date: year3.innerHTML,
+            title: title3.innerHTML,
+            text: text3.innerHTML,
+            credit: credit3.innerHTML
+          }
+        },
+        {
+          src: slideSrc4,
+          caption: {
+            date: year4.innerHTML,
+            title: title4.innerHTML,
+            text: text4.innerHTML,
+            credit: credit4.innerHTML
+          }
+        },
+        {
+          src: slideSrc5,
+          caption: {
+            date: year5.innerHTML,
+            title: title5.innerHTML,
+            text: text5.innerHTML,
+            credit: credit5.innerHTML
+          }
+        }
+      ]
     } );
-
-    isFullWidth = false;
-    src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
-    year.innerHTML = '19XX';
-    title.innerHTML = 'Title';
-    text.innerHTML = 'Body text tk.';
-    credit.innerHTML = 'Photo Credit TK';
+    resetSlideshowHelperItem();
   }
 
   /**
@@ -308,6 +406,34 @@
 
     &:last-of-type {
       margin-bottom: 26px;
+    }
+  }
+
+  .decades-gallery-slideshow-container {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    overflow-x: auto;
+    padding-left: 24px;
+    width: 110%;
+
+    .decades-gallery-item {
+      border-top: none;
+      margin-right: 24px;
+      margin-top: 0;
+
+      &:last-of-type {
+        padding-right: 24px;
+      }
+    }
+
+    .decades-gallery-item.is-full-width {
+      max-width: 1000px;
+      width: 100vw;
+    }
+
+    .decades-gallery-image {
+      padding-top: 0;
     }
   }
 
@@ -782,11 +908,11 @@
 
 <GalleryItemHelper>
   <figure class="decades-gallery-item is-template" slot="new-gallery-item">
-    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{src}">
+    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{imageSrc}">
     <label for="image-type">Full-width Image:</label>
     <input id="image-type" class="image-type" name="image-full-width" type="checkbox" bind:checked={isFullWidth}>
     <label for="image-src">Image URL at 2x:</label>
-    <input id="image-src" name="image-src" type="text" placeholder="Image URL" bind:value={src}>
+    <input id="image-src" name="image-src" type="text" placeholder="Image URL" bind:value={imageSrc}>
     <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year}>19XX</span> <span contenteditable bind:this={title}>Title</span> <p class="body-text"><span contenteditable bind:this={text}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit}>Photo Credit TK</span></p></figcaption>
   </figure>
 
@@ -794,6 +920,44 @@
 </GalleryItemHelper>
 
 <GallerySlideshowHelper>
+  <div class="decades-gallery-slideshow-container" slot="new-gallery-slideshow-item">
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+      <img class="decades-gallery-image" src="{slideSrc1}">
+      <label for="slideshow-type">Full-width Slideshow:</label>
+      <input id="slideshow-type" class="slideshow-type" name="slideshow-full-width" type="checkbox" bind:checked={isFullWidthSlideshow}>
+      <label for="slideshow-src">Image URL at 2x:</label>
+      <input id="slideshow-src" name="slideshow-src" type="text" placeholder="Image URL" bind:value={slideSrc1}>
+      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year1}>19XX</span> <span contenteditable bind:this={title1}>Title</span> <p class="body-text"><span contenteditable bind:this={text1}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit1}>Photo Credit TK</span></p></figcaption>
+    </figure>
+
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+      <img class="decades-gallery-image" src="{slideSrc2}">
+      <label for="slideshow2-src">Image URL at 2x:</label>
+      <input id="slideshow2-src" name="slideshow2-src" type="text" placeholder="Image URL" bind:value={slideSrc2}>
+      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year2}>19XX</span> <span contenteditable bind:this={title2}>Title</span> <p class="body-text"><span contenteditable bind:this={text2}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit2}>Photo Credit TK</span></p></figcaption>
+    </figure>
+
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+      <img class="decades-gallery-image" src="{slideSrc3}">
+      <label for="slideshow3-src">Image URL at 2x:</label>
+      <input id="slideshow3-src" name="slideshow3-src" type="text" placeholder="Image URL" bind:value={slideSrc3}>
+      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year3}>19XX</span> <span contenteditable bind:this={title3}>Title</span> <p class="body-text"><span contenteditable bind:this={text3}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit3}>Photo Credit TK</span></p></figcaption>
+    </figure>
+
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+      <img class="decades-gallery-image" src="{slideSrc4}">
+      <label for="slideshow4-src">Image URL at 2x:</label>
+      <input id="slideshow4-src" name="slideshow4-src" type="text" placeholder="Image URL" bind:value={slideSrc4}>
+      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year4}>19XX</span> <span contenteditable bind:this={title4}>Title</span> <p class="body-text"><span contenteditable bind:this={text4}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit4}>Photo Credit TK</span></p></figcaption>
+    </figure>
+
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+      <img class="decades-gallery-image" src="{slideSrc5}">
+      <label for="slideshow5-src">Image URL at 2x:</label>
+      <input id="slideshow5-src" name="slideshow5-src" type="text" placeholder="Image URL" bind:value={slideSrc5}>
+      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year5}>19XX</span> <span contenteditable bind:this={title5}>Title</span> <p class="body-text"><span contenteditable bind:this={text5}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit5}>Photo Credit TK</span></p></figcaption>
+    </figure>
+  </div>
 
   <button slot="add-new-gallery-slideshow-item-button" type="button" on:click={addNewSlideshow}>Add New Slideshow</button>
 </GallerySlideshowHelper>
