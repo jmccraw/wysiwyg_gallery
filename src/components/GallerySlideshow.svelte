@@ -2,7 +2,16 @@
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  export let id;
+  export let type;
+  export let classList;
+  export let imageClass;
+  export let aspectRatio;
+  export let slides;
+
   let _galleries = document.querySelectorAll( '.decades-gallery' );
+  let total = 0;
+  $: total = slides.length;
 
   /**
    * The Gallery constructor, used to coordinate the movement of the gallery images
@@ -170,7 +179,6 @@
     _galleries = document.querySelectorAll( '.decades-gallery' );
     initializeGalleries();
   } );
-
 </script>
 
 <style type="text/scss">
@@ -537,28 +545,16 @@
 
 <article class="decades-gallery is-inline">
   <div class="decades-gallery-slider">
-    <figure class="decades-gallery-item">
-      <img class="decades-gallery-image" src="https://a.espncdn.com/prod/styles/pagetype/otl/20200302_female_nba_coaches/images/becky-hammon/finals/hammon_sas_01_1200x900.jpg">
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-caption-index text-color-black">1/4</span> <p class="body-text">The respect for Hammon from young players like Dejounte Murray (5) and veterans like LaMarcus Aldridge has been there from day one. &#8220;The players have been amazing,&#8221; Hammon said. &#8220;They&#8217;re the best part of the job. No doubt.&#8221; <span class="credit">Ronald Cortes/Getty Images</span></p></figcaption>
-    </figure>
 
+  {#each slides as slide, index}
     <figure class="decades-gallery-item">
-      <img class="decades-gallery-image" src="https://a.espncdn.com/prod/styles/pagetype/otl/20200302_female_nba_coaches/images/becky-hammon/finals/hammon_sas_02_1200x900.jpg">
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-caption-index text-color-black">2/4</span> <p class="body-text">&#8220;There&#8217;s a real brotherhood going on here [in the NBA], too,&#8221; Hammon said. &#8220;The resistance is real sometimes. They&#8217;re not all happy we&#8217;re here. It&#8217;s a super-competitive field. And the women are here to compete.&#8221; <span class="credit">Celeste Sloman for ESPN</span></p></figcaption>
+      <img class="decades-gallery-image" src="{slide.src}">
+      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-caption-index text-color-black">{index + 1}/{total} {#if slide.caption.title}<span>{@html slide.caption.title}</span>{/if}</span> <p class="body-text">{@html slide.caption.text} {#if slide.caption.credit}<span class="credit">{@html slide.caption.credit}</span>{/if}</p></figcaption>
     </figure>
-
-    <figure class="decades-gallery-item">
-      <img class="decades-gallery-image" src="https://a.espncdn.com/prod/styles/pagetype/otl/20200302_female_nba_coaches/images/becky-hammon/finals/hammon_sas_03_1200x900.jpg">
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-caption-index text-color-black">3/4</span> <p class="body-text">Seven years before he hired her, coach Gregg Popovich (middle) was watching Hammon&#8217;s WNBA career closely. &#8220;He brought me in when I was injured [in 2013] because he wanted to see how I mingled, how I fit in,&#8221; Hammon said. <span class="credit">David Berding/Getty Images</span></p></figcaption>
-    </figure>
-
-    <figure class="decades-gallery-item">
-      <img class="decades-gallery-image" src="https://a.espncdn.com/prod/styles/pagetype/otl/20200302_female_nba_coaches/images/becky-hammon/finals/hammon_sas_04_1200x900.jpg">
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-caption-index text-color-black">4/4</span> <p class="body-text">&#8220;Women are going to continue to push the envelope and continue to do a great job,&#8221; Hammon said. &#8220;People ask, &#8216;What can you do?&#8217; I&#8217;m like, &#8216;Do your best.&#8217; That has been enough, it will be enough.&#8221; <span class="credit">Celeste Sloman for ESPN</span></p></figcaption>
-    </figure>
+  {/each}
   </div>
 
-  <div class="decades-gallery-nav" style="--decades-ratio: 0.75;">
+  <div class="decades-gallery-nav" style="--decades-ratio: {aspectRatio};">
     <button class="decades-gallery-nav-button is-left" type="button" title="Previous Image"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button>
     <button class="decades-gallery-nav-button is-right" type="button" title="Next Image"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button>
   </div>
