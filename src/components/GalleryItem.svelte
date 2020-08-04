@@ -62,15 +62,15 @@
   let slideSrc5 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
   let isFullWidth = false;
   let isFullWidthSlideshow = false;
+  let isVisible1 = true;
+  let isVisible2 = true;
+  let isVisible3 = true;
+  let isVisible4 = true;
+  let isVisible5 = true;
   let year;
   let title;
   let text;
   let credit;
-  let year1;
-  let year2;
-  let year3;
-  let year4;
-  let year5;
   let title1;
   let title2;
   let title3;
@@ -86,6 +86,14 @@
   let credit3;
   let credit4;
   let credit5;
+  let aspectRatio = 0.75;
+
+  /**
+   * Saves the items array to localstorage
+   */
+  function saveItems() {
+    storeValue( 'items', items );
+  }
 
   /**
    * Resets the photo gallery item helper
@@ -109,11 +117,6 @@
     slideSrc3 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
     slideSrc4 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
     slideSrc5 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
-    year1.innerHTML = '19XX';
-    year2.innerHTML = '19XX';
-    year3.innerHTML = '19XX';
-    year4.innerHTML = '19XX';
-    year5.innerHTML = '19XX';
     title1.innerHTML = 'Title';
     title2.innerHTML = 'Title';
     title3.innerHTML = 'Title';
@@ -129,6 +132,12 @@
     credit3.innerHTML = 'Photo Credit TK';
     credit4.innerHTML = 'Photo Credit TK';
     credit5.innerHTML = 'Photo Credit TK';
+    isVisible1 = true;
+    isVisible2 = true;
+    isVisible3 = true;
+    isVisible4 = true;
+    isVisible5 = true;
+    aspectRatio = 0.75;
   }
 
   /**
@@ -149,6 +158,7 @@
         credit: credit.innerHTML
       }
     } );
+    saveItems();
     resetPhotoHelperItem();
   }
 
@@ -157,67 +167,73 @@
    */
   function addNewSlideshow() {
     isInitial = false;
-    items = items.concat( {
+    const slideshowData = {
       id: ++currID,
       type: 'gallery',
       classList: '',
       imageClass: isFullWidthSlideshow ? 'is-full-width' : '',
-      slides: [
-        {
-          src: slideSrc1,
-          caption: {
-            date: year1.innerHTML,
-            title: title1.innerHTML,
-            text: text1.innerHTML,
-            credit: credit1.innerHTML
-          }
-        },
-        {
-          src: slideSrc2,
-          caption: {
-            date: year2.innerHTML,
-            title: title2.innerHTML,
-            text: text2.innerHTML,
-            credit: credit2.innerHTML
-          }
-        },
-        {
-          src: slideSrc3,
-          caption: {
-            date: year3.innerHTML,
-            title: title3.innerHTML,
-            text: text3.innerHTML,
-            credit: credit3.innerHTML
-          }
-        },
-        {
-          src: slideSrc4,
-          caption: {
-            date: year4.innerHTML,
-            title: title4.innerHTML,
-            text: text4.innerHTML,
-            credit: credit4.innerHTML
-          }
-        },
-        {
-          src: slideSrc5,
-          caption: {
-            date: year5.innerHTML,
-            title: title5.innerHTML,
-            text: text5.innerHTML,
-            credit: credit5.innerHTML
-          }
-        }
-      ]
-    } );
-    resetSlideshowHelperItem();
-  }
+      aspectRatio: 0.75,
+      slides: []
+    };
 
-  /**
-   * Saves the items array to localstorage
-   */
-  function saveItems() {
-    storeValue( 'items', items );
+    if ( isVisible1 ) {
+      slideshowData.slides.push( {
+        src: slideSrc1,
+        caption: {
+          title: title1.innerHTML,
+          text: text1.innerHTML,
+          credit: credit1.innerHTML
+        }
+      } );
+    }
+
+    if ( isVisible2 ) {
+      slideshowData.slides.push( {
+        src: slideSrc2,
+        caption: {
+          title: title2.innerHTML,
+          text: text2.innerHTML,
+          credit: credit2.innerHTML
+        }
+      } );
+    }
+
+    if ( isVisible3 ) {
+      slideshowData.slides.push( {
+        src: slideSrc3,
+        caption: {
+          title: title3.innerHTML,
+          text: text3.innerHTML,
+          credit: credit3.innerHTML
+        }
+      } );
+    }
+
+    if ( isVisible4 ) {
+      slideshowData.slides.push( {
+        src: slideSrc4,
+        caption: {
+          title: title4.innerHTML,
+          text: text4.innerHTML,
+          credit: credit4.innerHTML
+        }
+      } );
+    }
+
+    if ( isVisible5 ) {
+      slideshowData.slides.push( {
+        src: slideSrc5,
+        caption: {
+          title: title5.innerHTML,
+          text: text5.innerHTML,
+          credit: credit5.innerHTML
+        }
+      } );
+    }
+
+    items = items.concat( slideshowData );
+    saveItems();
+    resetSlideshowHelperItem();
   }
 
   /**
@@ -414,13 +430,17 @@
     display: flex;
     justify-content: space-between;
     overflow-x: auto;
-    padding-left: 24px;
     width: 110%;
 
     .decades-gallery-item {
+      display: none;
       border-top: none;
       margin-right: 24px;
       margin-top: 0;
+
+      &.is-visible {
+        display: block;
+      }
 
       &:last-of-type {
         padding-right: 24px;
@@ -434,6 +454,14 @@
 
     .decades-gallery-image {
       padding-top: 0;
+    }
+
+    .decades-gallery-slideshow-reset-button {
+      display: none;
+
+      &.is-visible {
+        display: block;
+      }
     }
   }
 
@@ -921,43 +949,54 @@
 
 <GallerySlideshowHelper>
   <div class="decades-gallery-slideshow-container" slot="new-gallery-slideshow-item">
-    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible1}>
       <img class="decades-gallery-image" src="{slideSrc1}">
-      <label for="slideshow-type">Full-width Slideshow:</label>
-      <input id="slideshow-type" class="slideshow-type" name="slideshow-full-width" type="checkbox" bind:checked={isFullWidthSlideshow}>
       <label for="slideshow-src">Image URL at 2x:</label>
       <input id="slideshow-src" name="slideshow-src" type="text" placeholder="Image URL" bind:value={slideSrc1}>
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year1}>19XX</span> <span contenteditable bind:this={title1}>Title</span> <p class="body-text"><span contenteditable bind:this={text1}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit1}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title1}>Title</span> <p class="body-text"><span contenteditable bind:this={text1}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit1}>Photo Credit TK</span></p></figcaption>
+      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible1 = false }}">Delete Slide</button>
     </figure>
 
-    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible2}>
       <img class="decades-gallery-image" src="{slideSrc2}">
       <label for="slideshow2-src">Image URL at 2x:</label>
       <input id="slideshow2-src" name="slideshow2-src" type="text" placeholder="Image URL" bind:value={slideSrc2}>
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year2}>19XX</span> <span contenteditable bind:this={title2}>Title</span> <p class="body-text"><span contenteditable bind:this={text2}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit2}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title2}>Title</span> <p class="body-text"><span contenteditable bind:this={text2}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit2}>Photo Credit TK</span></p></figcaption>
+      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible2 = false }}">Delete Slide</button>
     </figure>
 
-    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible3}>
       <img class="decades-gallery-image" src="{slideSrc3}">
       <label for="slideshow3-src">Image URL at 2x:</label>
       <input id="slideshow3-src" name="slideshow3-src" type="text" placeholder="Image URL" bind:value={slideSrc3}>
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year3}>19XX</span> <span contenteditable bind:this={title3}>Title</span> <p class="body-text"><span contenteditable bind:this={text3}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit3}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title3}>Title</span> <p class="body-text"><span contenteditable bind:this={text3}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit3}>Photo Credit TK</span></p></figcaption>
+      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible3 = false }}">Delete Slide</button>
     </figure>
 
-    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible4}>
       <img class="decades-gallery-image" src="{slideSrc4}">
       <label for="slideshow4-src">Image URL at 2x:</label>
       <input id="slideshow4-src" name="slideshow4-src" type="text" placeholder="Image URL" bind:value={slideSrc4}>
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year4}>19XX</span> <span contenteditable bind:this={title4}>Title</span> <p class="body-text"><span contenteditable bind:this={text4}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit4}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title4}>Title</span> <p class="body-text"><span contenteditable bind:this={text4}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit4}>Photo Credit TK</span></p></figcaption>
+      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible4 = false }}">Delete Slide</button>
     </figure>
 
-    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}">
+    <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible5}>
       <img class="decades-gallery-image" src="{slideSrc5}">
       <label for="slideshow5-src">Image URL at 2x:</label>
       <input id="slideshow5-src" name="slideshow5-src" type="text" placeholder="Image URL" bind:value={slideSrc5}>
-      <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year5}>19XX</span> <span contenteditable bind:this={title5}>Title</span> <p class="body-text"><span contenteditable bind:this={text5}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit5}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title5}>Title</span> <p class="body-text"><span contenteditable bind:this={text5}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit5}>Photo Credit TK</span></p></figcaption>
+      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible5 = false }}">Delete Slide</button>
     </figure>
+
+    <button class="decades-gallery-slideshow-reset-button" class:is-visible="{!isVisible1 && !isVisible2 && !isVisible3 && !isVisible4 && !isVisible5}" type="button" on:click={resetSlideshowHelperItem}>Reset Slideshow Helper</button>
   </div>
 
+  <div slot="add-new-gallery-slideshow-full-width-container">
+    <label for="slideshow-type">Full-width Slideshow:</label>
+    <input id="slideshow-type" class="slideshow-type" name="slideshow-full-width" type="checkbox" bind:checked={isFullWidthSlideshow}>
+    <label for="slideshow-aspect-ratio" style="display:block">Set image aspect ratio (height / width, e.g., 9 / 16 = 0.5625):</label>
+    <input id="slideshow-aspect-ratio" class="slideshow-aspect-ratio" name="slideshow-aspect-ratio" type="text" bind:value={aspectRatio}>
+  </div>
   <button slot="add-new-gallery-slideshow-item-button" type="button" on:click={addNewSlideshow}>Add New Slideshow</button>
 </GallerySlideshowHelper>

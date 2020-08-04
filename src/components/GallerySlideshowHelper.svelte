@@ -17,5 +17,6 @@
 
 <aside>
   <slot name="new-gallery-slideshow-item" class="gallery-item"></slot>
+  <slot name="add-new-gallery-slideshow-full-width-container"></slot>
   <slot name="add-new-gallery-slideshow-item-button" class="add-button"></slot>
 </aside>
