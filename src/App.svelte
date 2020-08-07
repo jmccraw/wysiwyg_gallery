@@ -3,6 +3,7 @@
 	import StickyHeader from './components/StickyHeader.svelte';
 	import AttributeSetter from './components/AttributeSetter.svelte';
 	import GalleryContainer from './components/GalleryContainer.svelte';
+	import RelatedStories from './components/RelatedStories.svelte';
 	import { storeValue, getValue } from './utilities/LocalStore.js';
 
 	let accentColor = getValue( 'accentColor', 'string' ) || '';
@@ -54,4 +55,5 @@
 		<input id="analytics-name" name="analytics-name" type="text" placeholder="cowboy-60" bind:value={analytics} analytics={analytics} on:blur={storeAnalytics} slot="new-analytics-name" />
 	</AttributeSetter>
 	<GalleryContainer />
+	<RelatedStories />
 </main>
