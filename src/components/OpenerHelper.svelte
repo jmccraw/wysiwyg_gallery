@@ -2,6 +2,7 @@
   import { fade } from 'svelte/transition';
   import { createEventDispatcher } from 'svelte';
   import { dndzone } from 'svelte-dnd-action';
+  import { isToggled } from '../utilities/ToggleStore.js';
 
   export let images = {};
 
@@ -88,6 +89,10 @@
       opacity 0.25s ease-in-out;
     width: 250px;
     z-index: 99999;
+
+    &.is-toggled {
+      display: none;
+    }
   }
 
   .decades-maker-new-header-image.is-visible {
@@ -175,7 +180,7 @@
   }
 </style>
 
-<aside class="decades-maker-new-header-image" bind:this={_el}>
+<aside class="decades-maker-new-header-image" class:is-toggled={$isToggled} bind:this={_el}>
   <header class="decades-maker-new-header-image-header">
     <button on:click={toggleImageAdder} type="button">{callToAction} Opener Image Editor</button>
   </header>

@@ -2,6 +2,7 @@
   import OpenerHelper from './OpenerHelper.svelte';
   import { onMount } from 'svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
+  import { isToggled } from '../utilities/ToggleStore.js';
 
   let desktopImages = getValue( 'desktopImages', 'object' ) || [
     {
@@ -486,9 +487,15 @@
   [contenteditable] {
     border: 1px dotted $decades-blue;
   }
+
+  .decades-opener.is-toggled {
+    [contenteditable] {
+      border: none;
+    }
+  }
 </style>
 
-<header class="decades-opener" class:is-active={isActive} bind:this={_opener}>
+<header class="decades-opener" class:is-active={isActive} class:is-toggled={$isToggled} bind:this={_opener}>
   <div class="decades-opener-images is-desktop">
     {#each desktopImages as desktopImage(desktopImage.id)}
       <img class="decades-opener-image is-desktop" {...desktopImage}>

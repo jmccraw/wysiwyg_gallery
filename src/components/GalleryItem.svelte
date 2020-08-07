@@ -9,6 +9,7 @@
   import { dndzone } from 'svelte-dnd-action';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
+  import { isToggled } from '../utilities/ToggleStore.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -87,6 +88,19 @@
   let credit4;
   let credit5;
   let aspectRatio = 0.75;
+
+  /**
+   * Toggles the page from Editor view to Preview view
+   */
+  function toggleRealPage() {
+
+    // If not toggled, switch to Preview view, and vice versa
+    if ( ! $isToggled ) {
+      isToggled.set( true );
+    } else {
+      isToggled.set( false );
+    }
+  }
 
   /**
    * Saves the items array to localstorage
@@ -901,9 +915,43 @@
   button {
     margin-top: 24px;
   }
+
+  .decades-gallery-item-container.is-toggled {
+    pointer-events: none;
+
+    [contenteditable] {
+      border: none;
+    }
+
+    button {
+      display: none;
+    }
+  }
+
+  .toggle-page-view {
+    background-color: #f90;
+    border: 1px solid currentColor;
+    border-radius: 8px;
+    bottom: 16px;
+    color: #333;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.75));
+    left: 16px;
+    outline: none;
+    opacity: 0.5;
+    position: fixed;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transition: opacity 0.25s ease-in-out;
+    width: 225px;
+    z-index: 9999;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 </style>
 
-<article use:dndzone={{items: items}} on:consider={handleDndConsider} on:finalize={handleDndFinalize}>
+<article class="decades-gallery-item-container" class:is-toggled={$isToggled} use:dndzone={{items: items}} on:consider={handleDndConsider} on:finalize={handleDndFinalize}>
 {#each items as item, index (item.id)}
   {#if 'image' === item.type}
     <figure class="decades-gallery-item {item.className}">
@@ -929,6 +977,8 @@
   {/if}
 {/each}
 </article>
+
+{#if ! $isToggled}
 
 <GalleryItemHeaderHelper on:addheader={addNewHeaderItem} />
 
@@ -1000,3 +1050,7 @@
   </div>
   <button slot="add-new-gallery-slideshow-item-button" type="button" on:click={addNewSlideshow}>Add New Slideshow</button>
 </GallerySlideshowHelper>
+
+{/if}
+
+<button class="toggle-page-view pill" type="button" on:click={toggleRealPage}>Toggle to {$isToggled ? 'Editor' : 'Page Preview'}</button>

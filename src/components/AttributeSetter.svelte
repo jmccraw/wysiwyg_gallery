@@ -1,4 +1,5 @@
 <script>
+  import { isToggled } from '../utilities/ToggleStore.js';
 	export let accentColor;
 	export let highlightColor;
 	export let analytics;
@@ -20,6 +21,7 @@
   }
 </style>
 
+{#if ! $isToggled}
 <aside class="decades-attribute-container">
   <label for="accent-color">Accent Color (RGB, RGBA, Hex; default #d00):</label>
   <slot name="new-accent-color" class="accent-color"></slot>
@@ -28,3 +30,4 @@
   <label for="analytics-name">Analytics tracking name (lowercase, with limited hyphens):</label>
   <slot name="new-analytics-name" class="analytics-name"></slot>
 </aside>
+{/if}
