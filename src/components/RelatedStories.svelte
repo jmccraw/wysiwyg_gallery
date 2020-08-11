@@ -1,5 +1,6 @@
 <script>
   import RelatedStoriesHelper from './RelatedStoriesHelper.svelte';
+  import RelatedStoriesCodeHelper from './RelatedStoriesCodeHelper.svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
 
@@ -175,6 +176,10 @@
   input {
     width: 65%;
   }
+
+  pre {
+    display: none;
+  }
 </style>
 
 <aside class="decades-related-stories">
@@ -193,3 +198,7 @@
   </div>
   {/if}
 </aside>
+
+<pre id="related-stories-code">
+  <RelatedStoriesCodeHelper {relatedLinks} />
+</pre>
