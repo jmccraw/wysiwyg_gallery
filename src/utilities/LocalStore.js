@@ -32,3 +32,9 @@ export function getValue( key, format ) {
   return value;
 }
 
+/**
+ * Clears the whole localStorage for this site
+ */
+export function clearStore() {
+  storage.clear();
+}
