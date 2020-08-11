@@ -6,6 +6,7 @@
   import GalleryItemTextHelper from './GalleryItemTextHelper.svelte';
   import GallerySlideshow from './GallerySlideshow.svelte';
   import GallerySlideshowHelper from './GallerySlideshowHelper.svelte';
+  import GalleryCodeHelper from './GalleryCodeHelper.svelte';
   import { dndzone } from 'svelte-dnd-action';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
@@ -949,6 +950,10 @@
       opacity: 1;
     }
   }
+
+  pre {
+    display: none;
+  }
 </style>
 
 <article class="decades-gallery-item-container" class:is-toggled={$isToggled} use:dndzone={{items: items}} on:consider={handleDndConsider} on:finalize={handleDndFinalize}>
@@ -1054,3 +1059,7 @@
 {/if}
 
 <button class="toggle-page-view pill" type="button" on:click={toggleRealPage}>Toggle to {$isToggled ? 'Editor' : 'Page Preview'}</button>
+
+<pre id="gallery-code">
+  <GalleryCodeHelper {items} />
+</pre>
