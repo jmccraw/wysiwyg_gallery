@@ -20,8 +20,25 @@
   @import '../styles/vars';
 
   button {
+    background-color: $decades-red;
+    border: 1px solid currentColor;
+    border-radius: 8px;
+    bottom: 16px;
+    color: #fff;
+    cursor: pointer;
     display: block;
+    font: 400 16px/1 'BentonSansReg', Arial, sans-serif;
+    letter-spacing: 0.5px;
     margin: 100px auto;
+    outline: none;
+    padding: 16px 16px 14px;
+    text-transform: uppercase;
+    transition: background-color 0.25s ease-in-out;
+    touch-action: manipulation;
+
+    &:hover {
+      background-color: $decades-active-red;
+    }
   }
 </style>
 
