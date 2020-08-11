@@ -1,5 +1,6 @@
 <script>
   import OpenerHelper from './OpenerHelper.svelte';
+  import OpenerCodeHelper from './OpenerCodeHelper.svelte';
   import { onMount } from 'svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
@@ -493,6 +494,10 @@
       border: none;
     }
   }
+
+  pre {
+    display: none;
+  }
 </style>
 
 <header class="decades-opener" class:is-active={isActive} class:is-toggled={$isToggled} bind:this={_opener}>
@@ -504,7 +509,7 @@
 
   <div class="decades-opener-images is-mobile">
     {#each mobileImages as mobileImage(mobileImage.id)}
-      <img class="decades-opener-image is-mobile" {...mobileImage}>>
+      <img class="decades-opener-image is-mobile" {...mobileImage}>
     {/each}
   </div>
 
@@ -517,4 +522,8 @@
     <input slot="decades-maker-new-header-image-alt" type="text" placeholder="Optional alt text for visually impaired" required="false" bind:value={altText} />
     <button slot="decades-maker-new-header-image-button" on:click={addNewOpenerImage}>Add New Header Image</button>
   </OpenerHelper>
+
+  <pre id="opener-code">
+    <OpenerCodeHelper {desktopImages} {mobileImages} {isSerif} {hed} {dek} {byline} />
+  </pre>
 </header>
