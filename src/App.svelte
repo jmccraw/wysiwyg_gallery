@@ -5,6 +5,7 @@
 	import GalleryContainer from './components/GalleryContainer.svelte';
 	import RelatedStories from './components/RelatedStories.svelte';
 	import ClearHelper from './components/ClearHelper.svelte';
+	import CodeHelper from './components/CodeHelper.svelte';
 	import { storeValue, getValue } from './utilities/LocalStore.js';
 
 	let accentColor = getValue( 'accentColor', 'string' ) || '';
@@ -58,4 +59,5 @@
 	<GalleryContainer />
 	<RelatedStories />
 	<ClearHelper />
+	<CodeHelper />
 </main>
