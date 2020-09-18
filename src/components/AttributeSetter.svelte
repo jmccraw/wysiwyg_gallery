@@ -6,14 +6,23 @@
 </script>
 
 <style type="text/scss">
+  @import '../styles/vars';
+
 	.decades-attribute-container {
+    border: 2px solid $light-gray;
     margin: 20px auto;
     max-width: 600px;
+    padding: 20px;
     position: relative;
   }
 
   label {
     display: inline-block;
+    margin-bottom: 10px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 
   input {

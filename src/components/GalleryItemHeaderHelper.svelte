@@ -27,12 +27,15 @@
   @import '../styles/vars';
 
   aside {
+    border: 2px solid $light-gray;
     margin-bottom: 20px;
-    margin-top: 20px;
+    margin-top: 60px;
+    padding: 0 20px 20px;
   }
 
   .add-button {
     background-color: none;
+    margin-top: 15px;
   }
 
   // Header/Subheader Styles
