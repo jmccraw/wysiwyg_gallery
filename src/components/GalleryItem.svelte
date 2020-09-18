@@ -293,10 +293,12 @@
   function addNewParagraph( event ) {
     isInitial = false;
     const text = event.detail.text;
+    const isSerif = event.detail.isSerif;
 
     items = items.concat( {
       id: ++currID,
       type: 'paragraph',
+      isSerif: isSerif,
       text: text
     } );
     saveItems();
@@ -976,7 +978,7 @@
     </div>
   {:else if 'paragraph' === item.type}
     <div>
-      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Paragraph</button>
+      <button class="decades-gallery-delete-button" class:serif={item.isSerif} type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Paragraph</button>
       <p class="body-text serif">{@html item.text}</p>
     </div>
   {/if}
