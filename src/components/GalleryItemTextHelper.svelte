@@ -3,6 +3,7 @@
   const dispatch = createEventDispatcher();
 
   let text;
+  let isSerif;
 
   /**
    * Dispatch a message to add a new paragraph section to the page
@@ -12,9 +13,11 @@
     if ( undefined === text ) return;
 
     dispatch( 'addtext', {
-      text: text
+      text: text.innerHTML,
+      isSerif: isSerif
     } );
-    text = '';
+    text.innerHTML = 'New paragraph of text.';
+    isSerif = false;
   }
 </script>
 
@@ -22,17 +25,37 @@
   @import '../styles/vars';
 
   aside {
-    margin-bottom: 20px;
-    margin-top: 20px;
+    border: 2px solid $light-gray;
+    margin-bottom: 60px;
+    margin-top: 70px;
+    padding: 20px;
+  }
+
+  .paragraph-hed {
+    font-family: sans-serif;
+    font-weight: 700;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+
+  .body-text {
+    margin-top: 15px;
   }
 
   .add-button {
     background-color: none;
   }
+
+  [contenteditable] {
+    border: 1px dotted $decades-blue;
+  }
 </style>
 
 <aside>
-  <label for="new-paragraph">New Paragraph Text:</label>
-  <textarea placeholder="New paragraph text." bind:value={text}></textarea>
+  <p class="paragraph-hed">New Paragraph Text:</p>
+  <label for="paragraph-serif">Make serif:</label>
+  <input type="checkbox" id="paragraph-serif" name="paragraph-serif" bind:checked={isSerif} />
+  <p class="body-text" class:serif={isSerif} contenteditable bind:this={text}>New paragraph of text.</p>
   <button class="add-button" type="button" on:click={dispatchNewParagraph}>Add New Paragraph</button>
 </aside>
