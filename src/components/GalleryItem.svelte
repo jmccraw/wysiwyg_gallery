@@ -10,7 +10,8 @@
   import { dndzone } from 'svelte-dnd-action';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
-  import { isToggled, isSerifHed } from '../utilities/ToggleStore.js';
+  import { isToggled } from '../utilities/ToggleStore.js';
+  import { isSerifHed } from '../utilities/SerifHedStore.js';
 
   let items = getValue( 'items', 'object' ) || [
     {

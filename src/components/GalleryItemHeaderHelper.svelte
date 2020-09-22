@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { isSerifHed } from '../utilities/ToggleStore.js';
+  import { isSerifHed } from '../utilities/SerifHedStore.js';
   const dispatch = createEventDispatcher();
 
   let header;
