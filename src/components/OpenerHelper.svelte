@@ -1,15 +1,17 @@
 <script>
   import { fade } from 'svelte/transition';
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { dndzone } from 'svelte-dnd-action';
-  import { isToggled } from '../utilities/ToggleStore.js';
+  import { storeValue, getValue } from '../utilities/LocalStore.js';
+  import { isToggled, isSerifHed } from '../utilities/ToggleStore.js';
 
   export let images = {};
 
   const dispatch = createEventDispatcher();
 
-  let _el;
   let callToAction = 'Expand';
+  let isSerifChecked = getValue( 'isSerifHed', 'boolean' ) || false;
+  let _el;
 
   function toggleImageAdder() {
     _el.classList.toggle( 'is-visible' );
@@ -25,9 +27,13 @@
    * Dispatch a message indicating the headline should use serif font
    */
   function makeHedSerif() {
+    const newIsSerif = ! isSerifChecked;
+
+    isSerifHed.set( newIsSerif );
     dispatch( 'makeserif', {
-      isserif: true
+      isserif: newIsSerif
     } );
+    storeValue( 'isSerifHed', newIsSerif );
   }
 
   /**
@@ -69,6 +75,15 @@
       type: 'mobile'
     } );
   }
+
+  onMount( () => {
+    if ( isSerifChecked ) {
+      isSerifHed.set( true );
+      dispatch( 'makeserif', {
+        isserif: true
+      } );
+    }
+  } );
 </script>
 
 <style type="text/scss">
@@ -195,8 +210,8 @@
   </header>
 
   <div class="decades-maker-hed-text-serif">
-    <label for="hed-serif">Use serif font for title:</label>
-    <input id="hed-serif" name="hed-serif" type="checkbox" on:click={makeHedSerif} />
+    <label for="hed-serif">Use serif font for headlines:</label>
+    <input id="hed-serif" name="hed-serif" type="checkbox" bind:checked={isSerifChecked} on:click={makeHedSerif} />
   </div>
 
   <div class="decades-maker-new-header-image-desktop">

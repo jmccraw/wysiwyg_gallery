@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { isSerifHed } from '../utilities/ToggleStore.js';
   const dispatch = createEventDispatcher();
 
   let header;
@@ -18,8 +19,8 @@
       subheader: subheader.innerHTML
     } );
 
-    header = '';
-    subheader = '';
+    header.innerHTML = 'Header Text';
+    subheader.innerHTML = 'Optional Subheader';
   }
 </script>
 
@@ -221,7 +222,7 @@
   <input id="new-subheader" name="new-subheader" type="text" placeholder="New Subheader" bind:value={subheader} /> -->
 
 
-  <h2 class="decades-container-hed headline serif no-motion is-lazy-thing" contenteditable bind:this={header}>Header Text</h2>
+  <h2 class="decades-container-hed headline no-motion is-lazy-thing" class:serif={$isSerifHed} contenteditable bind:this={header}>Header Text</h2>
   <span class="decades-container-hed-team subhead alt" contenteditable bind:this={subheader}>Optional Subheader</span>
 
 

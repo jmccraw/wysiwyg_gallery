@@ -10,7 +10,7 @@
   import { dndzone } from 'svelte-dnd-action';
   import { setLazyImages, watchForLazyImages } from '../utilities/LazyLoadImages.js';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
-  import { isToggled } from '../utilities/ToggleStore.js';
+  import { isToggled, isSerifHed } from '../utilities/ToggleStore.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -1021,7 +1021,7 @@
   {:else if 'header' === item.type}
     <div>
       <button class="decades-gallery-delete-button credit" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Header</button>
-      <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
+      <h2 class="decades-container-hed headline no-motion is-lazy-thing" class:serif={$isSerifHed}>{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
     </div>
   {:else if 'paragraph' === item.type}
     <div>
