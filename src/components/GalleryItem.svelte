@@ -316,6 +316,18 @@
     saveItems();
   }
 
+  let galleryImage;
+
+  function getImageData() {
+    fetch( galleryImage.src, { method: 'HEAD' } ) //.then( resp => resp.blob() )
+      .then( resp => resp.headers.get('Content-Length') )
+      .then( blob => {
+        window.console.log( blob, `Image Size: ${blob / 1024}` );
+      } );
+  }
+
+  // $: getImageData( slideSrc1 );
+
   onMount( () => {
     setLazyImages( document.querySelectorAll( '.decades-gallery-image.is-lazy' ) );
     watchForLazyImages();
@@ -1041,7 +1053,7 @@
 
 <GalleryItemHelper>
   <figure class="decades-gallery-item is-template" slot="new-gallery-item">
-    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{imageSrc}">
+    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{imageSrc}" bind:this={galleryImage} on:load={getImageData}>
     <label for="image-type">Full-width Image:</label>
     <input id="image-type" class="image-type" name="image-full-width" type="checkbox" bind:checked={isFullWidth}>
     <label for="image-src">Image URL at 2x:</label>
