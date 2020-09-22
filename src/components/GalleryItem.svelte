@@ -518,11 +518,6 @@
     }
   }
 
-  .decades-gallery.is-inline .decades-gallery-image,
-  .decades-gallery-item:first-of-type .decades-gallery-image {
-    padding-top: 0;
-  }
-
   .decades-gallery-item:not(.is-template):first-of-type {
     border-top: none;
   }
@@ -932,29 +927,81 @@
   }
 
   .toggle-page-view {
-    background-color: #f90;
-    border: 1px solid currentColor;
-    border-radius: 8px;
+    background-color: $purple;
+    border: none;
+    border-radius: 4px;
     bottom: 16px;
-    color: #333;
+    color: #fff;
     filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.75));
     left: 16px;
     outline: none;
     opacity: 0.5;
+    padding: 16px 16px 14px;
     position: fixed;
     text-transform: uppercase;
     touch-action: manipulation;
-    transition: opacity 0.25s ease-in-out;
+    transition: background-color 0.25s ease-in-out,
+      opacity 0.25s ease-in-out;
     width: 225px;
     z-index: 9999;
 
     &:hover {
       opacity: 1;
     }
+
+    &:active {
+      background-color: $purple-active;
+    }
   }
 
   pre {
     display: none;
+  }
+
+  .add-new-gallery-slideshow-full-width-container {
+    margin-top: 16px;
+
+    input {
+      margin-bottom: 8px;
+    }
+  }
+
+  :global(button.credit) {
+    border: none;
+    border-radius: 4px;
+    color: $decades-black;
+    cursor: pointer;
+    outline: none;
+    touch-action: manipulation;
+  }
+
+  :global(.decades-gallery-delete-button.credit) {
+    background-color: transparent;
+    border: none;
+    color: $decades-red;
+    height: 20px;
+    margin-bottom: -20px;
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  :global(.add-new-gallery-item-button.credit),
+  :global(.add-new-gallery-slideshow-item-button.credit) {
+    background-color: $purple;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    display: block;
+    padding: 8px 16px;
+    transition: background-color 0.25s ease-in-out;
+
+    &:hover {
+      background-color: $purple-hover;
+    }
+
+    &:active {
+      background-color: $purple-active;
+    }
   }
 </style>
 
@@ -962,23 +1009,23 @@
 {#each items as item, index (item.id)}
   {#if 'image' === item.type}
     <figure class="decades-gallery-item {item.className}">
-      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Image</button>
+      <button class="decades-gallery-delete-button credit" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Image</button>
       <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
       <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
     </figure>
   {:else if 'gallery' === item.type}
     <div>
-      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Slideshow</button>
+      <button class="decades-gallery-delete-button credit" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Slideshow</button>
       <GallerySlideshow {...item} index={index} />
     </div>
   {:else if 'header' === item.type}
     <div>
-      <button class="decades-gallery-delete-button" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Header</button>
+      <button class="decades-gallery-delete-button credit" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Header</button>
       <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
     </div>
   {:else if 'paragraph' === item.type}
     <div>
-      <button class="decades-gallery-delete-button" class:serif={item.isSerif} type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Paragraph</button>
+      <button class="decades-gallery-delete-button credit" class:serif={item.isSerif} type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Paragraph</button>
       <p class="body-text serif">{@html item.text}</p>
     </div>
   {/if}
@@ -1001,7 +1048,7 @@
     <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year}>19XX</span> <span contenteditable bind:this={title}>Title</span> <p class="body-text"><span contenteditable bind:this={text}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit}>Photo Credit TK</span></p></figcaption>
   </figure>
 
-  <button slot="add-new-gallery-item-button" type="button" on:click={addNewPhoto}>Add New Image</button>
+  <button class="add-new-gallery-item-button credit" slot="add-new-gallery-item-button" type="button" on:click={addNewPhoto}>Add New Image</button>
 </GalleryItemHelper>
 
 <GallerySlideshowHelper>
@@ -1011,7 +1058,7 @@
       <label for="slideshow-src">Image URL at 2x:</label>
       <input id="slideshow-src" name="slideshow-src" type="text" placeholder="Image URL" bind:value={slideSrc1}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title1}>Title</span> <p class="body-text"><span contenteditable bind:this={text1}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit1}>Photo Credit TK</span></p></figcaption>
-      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible1 = false }}">Delete Slide</button>
+      <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible1 = false }}">Delete Slide</button>
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible2}>
@@ -1019,7 +1066,7 @@
       <label for="slideshow2-src">Image URL at 2x:</label>
       <input id="slideshow2-src" name="slideshow2-src" type="text" placeholder="Image URL" bind:value={slideSrc2}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title2}>Title</span> <p class="body-text"><span contenteditable bind:this={text2}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit2}>Photo Credit TK</span></p></figcaption>
-      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible2 = false }}">Delete Slide</button>
+      <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible2 = false }}">Delete Slide</button>
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible3}>
@@ -1027,7 +1074,7 @@
       <label for="slideshow3-src">Image URL at 2x:</label>
       <input id="slideshow3-src" name="slideshow3-src" type="text" placeholder="Image URL" bind:value={slideSrc3}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title3}>Title</span> <p class="body-text"><span contenteditable bind:this={text3}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit3}>Photo Credit TK</span></p></figcaption>
-      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible3 = false }}">Delete Slide</button>
+      <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible3 = false }}">Delete Slide</button>
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible4}>
@@ -1035,7 +1082,7 @@
       <label for="slideshow4-src">Image URL at 2x:</label>
       <input id="slideshow4-src" name="slideshow4-src" type="text" placeholder="Image URL" bind:value={slideSrc4}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title4}>Title</span> <p class="body-text"><span contenteditable bind:this={text4}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit4}>Photo Credit TK</span></p></figcaption>
-      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible4 = false }}">Delete Slide</button>
+      <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible4 = false }}">Delete Slide</button>
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible5}>
@@ -1043,24 +1090,24 @@
       <label for="slideshow5-src">Image URL at 2x:</label>
       <input id="slideshow5-src" name="slideshow5-src" type="text" placeholder="Image URL" bind:value={slideSrc5}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title5}>Title</span> <p class="body-text"><span contenteditable bind:this={text5}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit5}>Photo Credit TK</span></p></figcaption>
-      <button class="decades-gallery-slideshow-item-delete-button" type="button" on:click="{() => { isVisible5 = false }}">Delete Slide</button>
+      <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible5 = false }}">Delete Slide</button>
     </figure>
 
-    <button class="decades-gallery-slideshow-reset-button" class:is-visible="{!isVisible1 && !isVisible2 && !isVisible3 && !isVisible4 && !isVisible5}" type="button" on:click={resetSlideshowHelperItem}>Reset Slideshow Helper</button>
+    <button class="decades-gallery-slideshow-reset-button credit" class:is-visible="{!isVisible1 && !isVisible2 && !isVisible3 && !isVisible4 && !isVisible5}" type="button" on:click={resetSlideshowHelperItem}>Reset Slideshow Helper</button>
   </div>
 
-  <div slot="add-new-gallery-slideshow-full-width-container">
+  <div class="add-new-gallery-slideshow-full-width-container" slot="add-new-gallery-slideshow-full-width-container">
     <label for="slideshow-type">Full-width Slideshow:</label>
     <input id="slideshow-type" class="slideshow-type" name="slideshow-full-width" type="checkbox" bind:checked={isFullWidthSlideshow}>
     <label for="slideshow-aspect-ratio" style="display:block">Set image aspect ratio (height / width, e.g., 9 / 16 = 0.5625):</label>
     <input id="slideshow-aspect-ratio" class="slideshow-aspect-ratio" name="slideshow-aspect-ratio" type="text" bind:value={aspectRatio}>
   </div>
-  <button slot="add-new-gallery-slideshow-item-button" type="button" on:click={addNewSlideshow}>Add New Slideshow</button>
+  <button class="add-new-gallery-slideshow-item-button credit" slot="add-new-gallery-slideshow-item-button" type="button" on:click={addNewSlideshow}>Add New Slideshow</button>
 </GallerySlideshowHelper>
 
 {/if}
 
-<button class="toggle-page-view pill" type="button" on:click={toggleRealPage}>Toggle to {$isToggled ? 'Editor' : 'Page Preview'}</button>
+<button class="toggle-page-view pill credit" type="button" on:click={toggleRealPage}>Toggle to {$isToggled ? 'Editor' : 'Page Preview'}</button>
 
 <pre id="gallery-code">
   <GalleryCodeHelper {items} />

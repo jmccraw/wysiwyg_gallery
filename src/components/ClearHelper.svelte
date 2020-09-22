@@ -22,7 +22,7 @@
   button {
     background-color: $decades-red;
     border: 1px solid currentColor;
-    border-radius: 8px;
+    border-radius: 4px;
     bottom: 16px;
     color: #fff;
     cursor: pointer;

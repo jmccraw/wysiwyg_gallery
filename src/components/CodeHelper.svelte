@@ -53,6 +53,7 @@
   }
 
   h3 {
+    margin-bottom: 16px;
     text-align: center;
   }
 
@@ -75,7 +76,7 @@
 
 {#if ! $isToggled}
 <aside class="code-helper">
-  <h3>Copy-Paste to Scribe Story Field</h3>
+  <h3 class="subhead small">Copy-Paste to Scribe Story Field</h3>
 
   <textarea class="code-helper__code"></textarea>
 </aside>

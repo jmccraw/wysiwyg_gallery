@@ -44,7 +44,22 @@
   }
 
   .add-button {
-    background-color: none;
+    background-color: $purple;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    display: block;
+    margin-top: -4px;
+    padding: 8px 16px;
+    transition: background-color 0.25s ease-in-out;
+
+    &:hover {
+      background-color: $purple-hover;
+    }
+
+    &:active {
+      background-color: $purple-active;
+    }
   }
 
   [contenteditable] {
@@ -57,5 +72,5 @@
   <label for="paragraph-serif">Make serif:</label>
   <input type="checkbox" id="paragraph-serif" name="paragraph-serif" bind:checked={isSerif} />
   <p class="body-text" class:serif={isSerif} contenteditable bind:this={text}>New paragraph of text.</p>
-  <button class="add-button" type="button" on:click={dispatchNewParagraph}>Add New Paragraph</button>
+  <button class="add-button credit" type="button" on:click={dispatchNewParagraph}>Add New Paragraph</button>
 </aside>

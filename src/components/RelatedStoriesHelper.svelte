@@ -33,6 +33,6 @@
 </style>
 
 {#each relatedLinks as {title, link}, index}
-{#if ! $isToggled}<button type="button" on:click={dispatchDelete} data-index="{index}">Delete Related Link</button>{/if}
+{#if ! $isToggled}<button class="credit" type="button" on:click={dispatchDelete} data-index="{index}">Delete Related Link</button>{/if}
 <a href="{link}" class="decades-related-stories-link subhead alt small" rel="noopener"><span>{@html title}</span></a>
 {/each}

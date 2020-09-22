@@ -485,6 +485,31 @@
     transition: stroke 0.25s ease-in-out;
   }
 
+  .decades-maker-new-header-image-inputs {
+    color: red;
+    display: block;
+    margin-bottom: 16px;
+    width: 100%;
+  }
+
+  .decades-maker-new-header-image-button {
+    background-color: $purple;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    display: block;
+    padding: 8px 16px;
+    transition: background-color 0.25s ease-in-out;
+
+    &:hover {
+      background-color: $purple-hover;
+    }
+
+    &:active {
+      background-color: $purple-active;
+    }
+  }
+
   [contenteditable] {
     border: 1px dotted $decades-blue;
   }
@@ -517,10 +542,10 @@
   <p class="decades-opener-dek deck"><span contenteditable on:blur={e => { storeTextChange( e, 'dek' ); }}>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable on:blur={e => { storeTextChange( e, 'byline' ); }}>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
   <OpenerHelper {images} on:deleteimage={deleteImage} on:adjustimages={adjustImages} on:makeserif={makeHedSerif}>
-    <input slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="Desktop Image URL" required="true" bind:value={desktopSrc} />
-    <input slot="decades-maker-new-header-image-mobile-src" type="text" placeholder="Mobile Image URL" required="true" bind:value={mobileSrc} />
-    <input slot="decades-maker-new-header-image-alt" type="text" placeholder="Optional alt text for visually impaired" required="false" bind:value={altText} />
-    <button slot="decades-maker-new-header-image-button" on:click={addNewOpenerImage}>Add New Header Image</button>
+    <input id="desktop-opener-url" class="decades-maker-new-header-image-inputs" slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="https://desktop" required="true" bind:value={desktopSrc} />
+    <input id="mobile-opener-url" class="decades-maker-new-header-image-inputs" slot="decades-maker-new-header-image-mobile-src" type="text" placeholder="https://mobile" required="true" bind:value={mobileSrc} />
+    <input id="opener-alt-text" class="decades-maker-new-header-image-inputs" slot="decades-maker-new-header-image-alt" type="text" placeholder="Descriptive image text" required="false" bind:value={altText} />
+    <button class="decades-maker-new-header-image-button credit" slot="decades-maker-new-header-image-button" on:click={addNewOpenerImage}>Add New Header Image</button>
   </OpenerHelper>
 
   <pre id="opener-code">

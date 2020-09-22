@@ -180,6 +180,25 @@
   pre {
     display: none;
   }
+
+  .add-button.credit {
+    background-color: $purple;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    display: block;
+    margin-top: 16px;
+    padding: 8px 16px;
+    transition: background-color 0.25s ease-in-out;
+
+    &:hover {
+      background-color: $purple-hover;
+    }
+
+    &:active {
+      background-color: $purple-active;
+    }
+  }
 </style>
 
 <aside class="decades-related-stories">
@@ -194,7 +213,7 @@
     <input id="related-link" name="related-link" type="text" placeholder="https://espn.com" bind:value={link}>
     <label for="related-title">Related Story Title:</label>
     <input id="related-title" name="related-title" type="text" placeholder="The world leader in sports" bind:value={title}>
-    <button type="button" on:click={addNewLink}>Add New Related Story</button>
+    <button class="add-button credit" type="button" on:click={addNewLink}>Add New Related Story</button>
   </div>
   {/if}
 </aside>

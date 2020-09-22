@@ -555,7 +555,7 @@
   </div>
 
   <div class="decades-gallery-nav" style="--decades-ratio: {aspectRatio};">
-    <button class="decades-gallery-nav-button is-left" type="button" title="Previous Image"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button>
-    <button class="decades-gallery-nav-button is-right" type="button" title="Next Image"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button>
+    <button class="decades-gallery-nav-button is-left credit" type="button" title="Previous Image"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button>
+    <button class="decades-gallery-nav-button is-right credit" type="button" title="Next Image"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button>
   </div>
 </article>

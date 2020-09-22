@@ -34,8 +34,22 @@
   }
 
   .add-button {
-    background-color: none;
-    margin-top: 15px;
+    background-color: $purple;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    display: block;
+    margin-top: 16px;
+    padding: 8px 16px;
+    transition: background-color 0.25s ease-in-out;
+
+    &:hover {
+      background-color: $purple-hover;
+    }
+
+    &:active {
+      background-color: $purple-active;
+    }
   }
 
   // Header/Subheader Styles
@@ -211,5 +225,5 @@
   <span class="decades-container-hed-team subhead alt" contenteditable bind:this={subheader}>Optional Subheader</span>
 
 
-  <button class="add-button" type="button" on:click={dispatchNewHeader}>Add New Header</button>
+  <button class="add-button credit" type="button" on:click={dispatchNewHeader}>Add New Header</button>
 </aside>
