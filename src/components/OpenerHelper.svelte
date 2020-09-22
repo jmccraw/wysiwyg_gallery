@@ -74,13 +74,23 @@
 <style type="text/scss">
   @import '../styles/vars';
 
+  .opener-image-toggle-button {
+    background-color: $purple;
+    border: none;
+    color: #fff;
+    height: 100%;
+    margin: -16px 0 0;
+    width: 100%;
+  }
+
   .decades-maker-new-header-image {
     background-color: #fff;
+    border-radius: 4px;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.35);
     left: 40px;
     max-height: 20px;
     -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
+    overflow-y: hidden;
     opacity: 0.25;
     padding: 16px;
     position: absolute;
@@ -96,8 +106,10 @@
   }
 
   .decades-maker-new-header-image.is-visible {
-    opacity: 1;
+    border-radius: 4px 4px 0 0;
     max-height: 400px;
+    opacity: 1;
+    overflow-y: auto;
   }
 
   .decades-maker-new-header-image:hover {
@@ -122,24 +134,17 @@
     width: auto;
   }
 
-  .decades-maker-new-header-image-inputs {
-    color: red;
-  }
-
-  .decades-maker-new-header-image-button {
-    background-color: rgb(248, 43, 43);
-    border-radius: 5px;
-    border: none;
-    color: #fff;
+  .decades-maker-new-header-image > label {
     display: block;
-    font: 400 16px/1 Arial, sans-serif;
-    height: 30px;
-    margin: 0 auto;
-    width: 80%;
+    margin-bottom: 4px;
   }
 
   .decades-maker-new-header-image-header {
-    height: 40px;
+    height: 52px;
+    margin-bottom: 24px;
+    margin-left: -16px;
+    position: relative;
+    width: calc(100% + 32px);
   }
 
   :global(.decades-opener-images-figure) {
@@ -157,6 +162,10 @@
     &:hover {
       border-color: $decades-grey-3;
     }
+  }
+
+  .decades-maker-hed-text-serif {
+    margin-bottom: 16px;
   }
 
   :global(.decades-opener-image-delete-button) {
@@ -182,7 +191,7 @@
 
 <aside class="decades-maker-new-header-image" class:is-toggled={$isToggled} bind:this={_el}>
   <header class="decades-maker-new-header-image-header">
-    <button on:click={toggleImageAdder} type="button">{callToAction} Opener Image Editor</button>
+    <button class="opener-image-toggle-button credit" on:click={toggleImageAdder} type="button">{callToAction} Opener Image Editor</button>
   </header>
 
   <div class="decades-maker-hed-text-serif">
@@ -214,8 +223,11 @@
     </div>
   </div>
 
-  <slot name="decades-maker-new-header-image-desktop-src" class="decades-maker-new-header-image-inputs"></slot>
-  <slot name="decades-maker-new-header-image-mobile-src" class="decades-maker-new-header-image-inputs"></slot>
-  <slot name="decades-maker-new-header-image-alt" class="decades-maker-new-header-image-inputs"></slot>
-  <slot name="decades-maker-new-header-image-button" class="decades-maker-new-header-image-button"></slot>
+  <label for="desktop-opener-url">Desktop Image URL:</label>
+  <slot name="decades-maker-new-header-image-desktop-src"></slot>
+  <label for="mobile-opener-url">Mobile Image URL:</label>
+  <slot name="decades-maker-new-header-image-mobile-src"></slot>
+  <label for="opener-alt-text">Optional Alt Text for Visually Impaired:</label>
+  <slot name="decades-maker-new-header-image-alt"></slot>
+  <slot name="decades-maker-new-header-image-button"></slot>
 </aside>
