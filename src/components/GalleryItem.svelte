@@ -12,6 +12,7 @@
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
   import { isSerifHed } from '../utilities/SerifHedStore.js';
+  import { getMaxImageSize, isImageWithinSizeBounds } from '../utilities/ImageSizeChecker.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -90,6 +91,7 @@
   let credit4;
   let credit5;
   let aspectRatio = 0.75;
+  let galleryImage;
 
   /**
    * Toggles the page from Editor view to Preview view
@@ -316,17 +318,20 @@
     saveItems();
   }
 
-  let galleryImage;
-
   function getImageData() {
-    fetch( galleryImage.src, { method: 'HEAD' } ) //.then( resp => resp.blob() )
-      .then( resp => resp.headers.get('Content-Length') )
-      .then( blob => {
-        window.console.log( blob, `Image Size: ${blob / 1024}` );
-      } );
-  }
+    if ( undefined === galleryImage.src ) return false;
+    const isProperSize = isImageWithinSizeBounds( galleryImage );
 
-  // $: getImageData( slideSrc1 );
+    window.console.log( galleryImage, 'isProperSize: ', isProperSize );
+
+    // Remove image link and prompt explainer saying photo is too large
+    if ( false === isProperSize ) {
+      window.console.log( 'galleryImage: ', galleryImage.src, typeof galleryImage );
+
+      galleryImage.src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+      alert( `That image URL is for a file over ${getMaxImageSize()}MB. Please use a smaller file for best performance.` );
+    }
+  }
 
   onMount( () => {
     setLazyImages( document.querySelectorAll( '.decades-gallery-image.is-lazy' ) );
