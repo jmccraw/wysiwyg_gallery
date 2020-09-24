@@ -147,6 +147,7 @@
 
   .mobile-images {
     height: 200px;
+    max-width: 200px;
     width: auto;
   }
 
