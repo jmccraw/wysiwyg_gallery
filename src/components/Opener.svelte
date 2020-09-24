@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
+  import { getMaxImageSize, isImageWithinSizeBounds } from '../utilities/ImageSizeChecker.js';
 
   let desktopImages = getValue( 'desktopImages', 'object' ) || [
     {
@@ -62,7 +63,11 @@
   let altText = '';
   let isActive = false;
   let isSerif = false;
+  let currDesktopID = desktopImages.length;
+  let currMobileID = mobileImages.length;
   let _opener;
+  let desktopPlaceholderImage;
+  let mobilePlaceholderImage;
 
   /**
    * On text element blur, save this new value
@@ -97,12 +102,20 @@
     if ( '' === desktopSrc && '' === mobileSrc ) return;
 
     if ( '' !== desktopSrc ) {
-      desktopImages = desktopImages.concat({ src: desktopSrc, alt: altText });
+      desktopImages = desktopImages.concat( {
+        id: ++currDesktopID,
+        src: desktopSrc,
+        alt: altText
+      } );
       storeValue( 'desktopImages', desktopImages );
     }
 
     if ( '' !== mobileSrc ) {
-      mobileImages = mobileImages.concat({ src: mobileSrc, alt: altText });
+      mobileImages = mobileImages.concat( {
+        id: ++currMobileID,
+        src: mobileSrc,
+        alt: altText
+      } );
       storeValue( 'mobileImages', mobileImages );
     }
 
@@ -144,10 +157,12 @@
       desktopImages.splice( event.detail.index, 1 );
       desktopImages = desktopImages;
       images.desktop = desktopImages;
+      storeValue( 'desktopImages', desktopImages );
     } else {
       mobileImages.splice( event.detail.index, 1 );
       mobileImages = mobileImages;
       images.mobile = mobileImages;
+      storeValue( 'mobileImages', mobileImages );
     }
   }
 
@@ -157,6 +172,33 @@
    */
   function makeHedSerif( event ) {
     isSerif = ! isSerif;
+  }
+
+  /**
+   * Determine if the image is within acceptable size bounds
+   * @event event The load event
+   */
+  function checkImageFileSize( event ) {
+    const _target = event.target;
+    const targetSource = _target.src;
+    if ( undefined === targetSource ) return false;
+    const isProperSize = isImageWithinSizeBounds( _target );
+
+    isProperSize.then( ( success, failure ) => {
+      window.console.log( 'AWAITING', success );
+      // Remove image link and prompt explainer saying photo is too large
+      if ( false === success ) {
+        if ( targetSource === desktopSrc ) {
+          desktopSrc = '';
+        } else if ( targetSource === mobileSrc ) {
+          mobileSrc = '';
+        }
+        alert( `That image URL is for a file over ${getMaxImageSize()}MB. Please use a smaller file for best performance.` );
+      }
+    } )
+    .catch( error => {
+      window.console.error( 'ERROR', error );
+    } );
   }
 
   onMount( () => {
@@ -486,7 +528,6 @@
   }
 
   .decades-maker-new-header-image-inputs {
-    color: red;
     display: block;
     margin-bottom: 16px;
     width: 100%;
@@ -508,6 +549,14 @@
     &:active {
       background-color: $purple-active;
     }
+  }
+
+  .image-placeholder-test {
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1px;
   }
 
   [contenteditable] {
@@ -547,6 +596,9 @@
     <input id="opener-alt-text" class="decades-maker-new-header-image-inputs" slot="decades-maker-new-header-image-alt" type="text" placeholder="Descriptive image text" required="false" bind:value={altText} />
     <button class="decades-maker-new-header-image-button credit" slot="decades-maker-new-header-image-button" on:click={addNewOpenerImage}>Add New Header Image</button>
   </OpenerHelper>
+
+  <img class="image-placeholder-test" src="{desktopSrc}" bind:this={desktopPlaceholderImage} on:load={checkImageFileSize} />
+  <img class="image-placeholder-test" src="{mobileSrc}" bind:this={mobilePlaceholderImage} on:load={checkImageFileSize} />
 
   <pre id="opener-code">
     <OpenerCodeHelper {desktopImages} {mobileImages} {isSerif} {hed} {dek} {byline} />
