@@ -91,7 +91,6 @@
   let credit4;
   let credit5;
   let aspectRatio = 0.75;
-  let galleryImage;
 
   /**
    * Toggles the page from Editor view to Preview view
@@ -318,17 +317,23 @@
     saveItems();
   }
 
-  function getImageData() {
-    if ( undefined === galleryImage.src ) return false;
-    const isProperSize = isImageWithinSizeBounds( galleryImage );
+  /**
+   * Determine if the image is within acceptable size bounds
+   * @event event The load event
+   */
+  function getImageData( event ) {
+    const _target = event.target;
+    if ( undefined === _target.src ) return false;
+    const isProperSize = isImageWithinSizeBounds( _target );
 
-    window.console.log( galleryImage, 'isProperSize: ', isProperSize );
+    // window.console.log( galleryImage, 'isProperSize: ', isProperSize );
+    // window.console.log( 'EVENT', _target );
 
     // Remove image link and prompt explainer saying photo is too large
     if ( false === isProperSize ) {
-      window.console.log( 'galleryImage: ', galleryImage.src, typeof galleryImage );
+      window.console.log( 'galleryImage: ', _target.src, typeof _target );
 
-      galleryImage.src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
+      _target.src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
       alert( `That image URL is for a file over ${getMaxImageSize()}MB. Please use a smaller file for best performance.` );
     }
   }
@@ -1058,7 +1063,7 @@
 
 <GalleryItemHelper>
   <figure class="decades-gallery-item is-template" slot="new-gallery-item">
-    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{imageSrc}" bind:this={galleryImage} on:load={getImageData}>
+    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{imageSrc}" on:load={getImageData}>
     <label for="image-type">Full-width Image:</label>
     <input id="image-type" class="image-type" name="image-full-width" type="checkbox" bind:checked={isFullWidth}>
     <label for="image-src">Image URL at 2x:</label>

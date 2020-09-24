@@ -57,7 +57,7 @@ export function isImageWithinSizeBounds( _image ) {
       }
     } )
     .then( imageSize => {
-      // window.console.log( 'fetched: ', imageSize, checkIfInBounds( convertImageToMegabytes( +imageSize ) ) );
+      window.console.log( 'fetched: ', imageSize, checkIfInBounds( convertImageToMegabytes( +imageSize ) ) );
       return checkIfInBounds( convertImageToMegabytes( +imageSize ) );
     } )
     .catch( error => {
