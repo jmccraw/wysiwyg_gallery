@@ -12,7 +12,7 @@
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
   import { isSerifHed } from '../utilities/SerifHedStore.js';
-  import { getMaxImageSize, isImageWithinSizeBounds } from '../utilities/ImageSizeChecker.js';
+  import { checkImageFileSize } from '../utilities/ImageSizeChecker.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -189,7 +189,7 @@
       type: 'gallery',
       classList: '',
       imageClass: isFullWidthSlideshow ? 'is-full-width' : '',
-      aspectRatio: 0.75,
+      aspectRatio: aspectRatio,
       slides: []
     };
 
@@ -315,27 +315,6 @@
     isInitial = false;
     items = e.detail.items;
     saveItems();
-  }
-
-  /**
-   * Determine if the image is within acceptable size bounds
-   * @event event The load event
-   */
-  function getImageData( event ) {
-    const _target = event.target;
-    if ( undefined === _target.src ) return false;
-    const isProperSize = isImageWithinSizeBounds( _target );
-
-    // window.console.log( galleryImage, 'isProperSize: ', isProperSize );
-    // window.console.log( 'EVENT', _target );
-
-    // Remove image link and prompt explainer saying photo is too large
-    if ( false === isProperSize ) {
-      window.console.log( 'galleryImage: ', _target.src, typeof _target );
-
-      _target.src = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
-      alert( `That image URL is for a file over ${getMaxImageSize()}MB. Please use a smaller file for best performance.` );
-    }
   }
 
   onMount( () => {
@@ -1063,7 +1042,7 @@
 
 <GalleryItemHelper>
   <figure class="decades-gallery-item is-template" slot="new-gallery-item">
-    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{imageSrc}" on:load={getImageData}>
+    <img class="decades-gallery-image {isFullWidth ? 'is-full-width' : ''}" src="{imageSrc}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
     <label for="image-type">Full-width Image:</label>
     <input id="image-type" class="image-type" name="image-full-width" type="checkbox" bind:checked={isFullWidth}>
     <label for="image-src">Image URL at 2x:</label>
@@ -1077,7 +1056,7 @@
 <GallerySlideshowHelper>
   <div class="decades-gallery-slideshow-container" slot="new-gallery-slideshow-item">
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible1}>
-      <img class="decades-gallery-image" src="{slideSrc1}">
+      <img class="decades-gallery-image" src="{slideSrc1}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow-src">Image URL at 2x:</label>
       <input id="slideshow-src" name="slideshow-src" type="text" placeholder="Image URL" bind:value={slideSrc1}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title1}>Title</span> <p class="body-text"><span contenteditable bind:this={text1}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit1}>Photo Credit TK</span></p></figcaption>
@@ -1085,7 +1064,7 @@
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible2}>
-      <img class="decades-gallery-image" src="{slideSrc2}">
+      <img class="decades-gallery-image" src="{slideSrc2}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow2-src">Image URL at 2x:</label>
       <input id="slideshow2-src" name="slideshow2-src" type="text" placeholder="Image URL" bind:value={slideSrc2}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title2}>Title</span> <p class="body-text"><span contenteditable bind:this={text2}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit2}>Photo Credit TK</span></p></figcaption>
@@ -1093,7 +1072,7 @@
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible3}>
-      <img class="decades-gallery-image" src="{slideSrc3}">
+      <img class="decades-gallery-image" src="{slideSrc3}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow3-src">Image URL at 2x:</label>
       <input id="slideshow3-src" name="slideshow3-src" type="text" placeholder="Image URL" bind:value={slideSrc3}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title3}>Title</span> <p class="body-text"><span contenteditable bind:this={text3}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit3}>Photo Credit TK</span></p></figcaption>
@@ -1101,7 +1080,7 @@
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible4}>
-      <img class="decades-gallery-image" src="{slideSrc4}">
+      <img class="decades-gallery-image" src="{slideSrc4}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow4-src">Image URL at 2x:</label>
       <input id="slideshow4-src" name="slideshow4-src" type="text" placeholder="Image URL" bind:value={slideSrc4}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title4}>Title</span> <p class="body-text"><span contenteditable bind:this={text4}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit4}>Photo Credit TK</span></p></figcaption>
@@ -1109,7 +1088,7 @@
     </figure>
 
     <figure class="decades-gallery-item is-template {isFullWidthSlideshow ? 'is-full-width' : ''}" class:is-visible={isVisible5}>
-      <img class="decades-gallery-image" src="{slideSrc5}">
+      <img class="decades-gallery-image" src="{slideSrc5}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow5-src">Image URL at 2x:</label>
       <input id="slideshow5-src" name="slideshow5-src" type="text" placeholder="Image URL" bind:value={slideSrc5}>
       <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title5}>Title</span> <p class="body-text"><span contenteditable bind:this={text5}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit5}>Photo Credit TK</span></p></figcaption>
