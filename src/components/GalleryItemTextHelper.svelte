@@ -1,5 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { stripClipboard } from '../utilities/StripClipboard.js';
+
   const dispatch = createEventDispatcher();
 
   let text;
@@ -13,7 +15,7 @@
     if ( undefined === text ) return;
 
     dispatch( 'addtext', {
-      text: text.innerHTML,
+      text: text.innerText,
       isSerif: isSerif
     } );
     text.innerHTML = 'New paragraph of text.';
@@ -71,6 +73,6 @@
   <p class="paragraph-hed">New Paragraph Text:</p>
   <label for="paragraph-serif">Make serif:</label>
   <input type="checkbox" id="paragraph-serif" name="paragraph-serif" bind:checked={isSerif} />
-  <p class="body-text" class:serif={isSerif} contenteditable bind:this={text}>New paragraph of text.</p>
+  <p class="body-text" class:serif={isSerif} contenteditable bind:this={text} on:paste={stripClipboard}>New paragraph of text.</p>
   <button class="add-button credit" type="button" on:click={dispatchNewParagraph}>Add New Paragraph</button>
 </aside>
