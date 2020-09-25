@@ -278,10 +278,12 @@
     isInitial = false;
     const header = event.detail.header;
     const subheader = event.detail.subheader;
+    const isSerif = event.detail.isSerif;
 
     items = items.concat( {
       id: ++currID,
       type: 'header',
+      isSerif: isSerif,
       header: header,
       subheader: subheader
     } );
@@ -1028,7 +1030,7 @@
   {:else if 'paragraph' === item.type}
     <div>
       <button class="decades-gallery-delete-button credit" class:serif={item.isSerif} type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Paragraph</button>
-      <p class="body-text serif">{@html item.text}</p>
+      <p class="body-text" class:serif={item.isSerif}>{@html item.text}</p>
     </div>
   {/if}
 {/each}

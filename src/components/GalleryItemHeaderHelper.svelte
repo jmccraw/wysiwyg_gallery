@@ -16,7 +16,8 @@
 
     dispatch( 'addheader', {
       header: header.innerHTML,
-      subheader: subheader.innerHTML
+      subheader: subheader.innerHTML,
+      isSerif: $isSerifHed
     } );
 
     header.innerHTML = 'Header Text';

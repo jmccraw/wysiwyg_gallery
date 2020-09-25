@@ -15,9 +15,9 @@
   {:else if 'gallery' === item.type}
     <GallerySlideshow {...item} index={index} />
   {:else if 'header' === item.type}
-    <h2 class="decades-container-hed headline serif no-motion is-lazy-thing">{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
+    <h2 class="decades-container-hed headline no-motion is-lazy-thing" class:serif={item.isSerif}>{@html item.header} {#if item.subheader}<span class="decades-container-hed-team subhead alt">{@html item.subheader}</span>{/if}</h2>
   {:else if 'paragraph' === item.type}
-    <p class="body-text serif">{@html item.text}</p>
+    <p class="body-text" class:serif={item.isSerif}>{@html item.text}</p>
   {/if}
 {/each}
 </article>
