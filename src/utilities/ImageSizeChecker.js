@@ -59,7 +59,7 @@ export async function isImageWithinSizeBounds( _image ) {
       }
     } )
     .then( imageSize => {
-      window.console.log( 'fetched: ', imageSize, checkIfInBounds( convertImageToMegabytes( +imageSize ) ) );
+      // window.console.log( 'fetched: ', imageSize, checkIfInBounds( convertImageToMegabytes( +imageSize ) ) );
       resolve( checkIfInBounds( convertImageToMegabytes( +imageSize ) ) );
     } )
     .catch( error => {
@@ -83,17 +83,17 @@ export function checkImageFileSize( event ) {
     // window.console.log( galleryImage, 'isProperSize: ', isProperSize );
     // window.console.log( 'EVENT', _target );
 
-    window.console.log( 'success, failure', success, failure );
+    // window.console.log( 'success, failure', success, failure );
 
     // Remove image link and prompt explainer saying photo is too large
     if ( false === success ) {
-      window.console.log( 'galleryImage: ', _target.src, typeof _target );
+      // window.console.log( 'galleryImage: ', _target.src, typeof _target );
 
       _target.src = _target.dataset.placeholder || '';
       alert( `That image URL is for a file over ${getMaxImageSize()}MB. Please use a smaller file for best performance.` );
     }
   } )
   .catch( error => {
-    window.console.error( 'ERROR', error );
+    window.console.error( 'ERROR', 'Failed to load the image file for size checking.' );
   } );
 }

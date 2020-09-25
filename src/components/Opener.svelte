@@ -185,7 +185,7 @@
     const isProperSize = isImageWithinSizeBounds( _target );
 
     isProperSize.then( ( success, failure ) => {
-      window.console.log( 'AWAITING', success );
+      // window.console.log( 'AWAITING', success );
       // Remove image link and prompt explainer saying photo is too large
       if ( false === success ) {
         if ( targetSource === desktopSrc ) {
@@ -197,7 +197,7 @@
       }
     } )
     .catch( error => {
-      window.console.error( 'ERROR', error );
+      window.console.error( 'ERROR', 'Failed to load the image file for size checking.' );
     } );
   }
 
