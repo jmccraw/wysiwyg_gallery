@@ -14,6 +14,7 @@
   import { isSerifHed } from '../utilities/SerifHedStore.js';
   import { checkImageFileSize } from '../utilities/ImageSizeChecker.js';
   import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
+  import { gallery } from '../utilities/CodeHelperStore.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -92,6 +93,7 @@
   let credit4;
   let credit5;
   let aspectRatio = 0.75;
+  gallery.set( items );
 
   /**
    * Toggles the page from Editor view to Preview view
@@ -111,6 +113,7 @@
    */
   function saveItems() {
     storeValue( 'items', items );
+    gallery.set( items );
   }
 
   /**
