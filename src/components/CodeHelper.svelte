@@ -1,7 +1,13 @@
 <script>
   import { onMount } from 'svelte';
+  import GalleryCodeHelper from './GalleryCodeHelper.svelte';
+  import { getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
+  import { opener, stickyHeader, gallery, relatedStories, scripts } from '../utilities/CodeHelperStore.js';
 
+  $: items = $gallery;
+
+  let _codeHelper;
   let _textarea;
   let _opener;
   let _stickyHeader;
@@ -37,6 +43,8 @@
     _gallery = document.getElementById( 'gallery-code' );
     _relatedStories = document.getElementById( 'related-stories-code' );
     _scripts = document.getElementById( 'scripts-code' );
+
+    _codeHelper = document.getElementById( 'code-helper-container' );
 
     buildTextareaCode();
   } );
@@ -77,6 +85,10 @@
 {#if ! $isToggled}
 <aside class="code-helper">
   <h3 class="subhead small">Copy-Paste to Scribe Story Field</h3>
+
+  <pre id="code-helper-container">
+    <GalleryCodeHelper {items} />
+  </pre>
 
   <textarea class="code-helper__code"></textarea>
 </aside>
