@@ -13,6 +13,7 @@
   import { isToggled } from '../utilities/ToggleStore.js';
   import { isSerifHed } from '../utilities/SerifHedStore.js';
   import { checkImageFileSize } from '../utilities/ImageSizeChecker.js';
+  import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -1049,7 +1050,7 @@
     <input id="image-type" class="image-type" name="image-full-width" type="checkbox" bind:checked={isFullWidth}>
     <label for="image-src">Image URL at 2x:</label>
     <input id="image-src" name="image-src" type="text" placeholder="Image URL" bind:value={imageSrc}>
-    <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year}>19XX</span> <span contenteditable bind:this={title}>Title</span> <p class="body-text"><span contenteditable bind:this={text}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit}>Photo Credit TK</span></p></figcaption>
+    <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date" contenteditable bind:this={year} on:blur={changeToPlainText}>19XX</span> <span contenteditable bind:this={title} on:blur={changeToPlainText}>Title</span> <p class="body-text"><span contenteditable bind:this={text} on:blur={changeToPlainText}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit} on:blur={changeToPlainText}>Photo Credit TK</span></p></figcaption>
   </figure>
 
   <button class="add-new-gallery-item-button credit" slot="add-new-gallery-item-button" type="button" on:click={addNewPhoto}>Add New Image</button>
@@ -1061,7 +1062,7 @@
       <img class="decades-gallery-image" src="{slideSrc1}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow-src">Image URL at 2x:</label>
       <input id="slideshow-src" name="slideshow-src" type="text" placeholder="Image URL" bind:value={slideSrc1}>
-      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title1}>Title</span> <p class="body-text"><span contenteditable bind:this={text1}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit1}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title1} on:blur={changeToPlainText}>Title</span> <p class="body-text"><span contenteditable bind:this={text1} on:blur={changeToPlainText}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit1} on:blur={changeToPlainText}>Photo Credit TK</span></p></figcaption>
       <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible1 = false }}">Delete Slide</button>
     </figure>
 
@@ -1069,7 +1070,7 @@
       <img class="decades-gallery-image" src="{slideSrc2}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow2-src">Image URL at 2x:</label>
       <input id="slideshow2-src" name="slideshow2-src" type="text" placeholder="Image URL" bind:value={slideSrc2}>
-      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title2}>Title</span> <p class="body-text"><span contenteditable bind:this={text2}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit2}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title2} on:blur={changeToPlainText}>Title</span> <p class="body-text"><span contenteditable bind:this={text2} on:blur={changeToPlainText}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit2} on:blur={changeToPlainText}>Photo Credit TK</span></p></figcaption>
       <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible2 = false }}">Delete Slide</button>
     </figure>
 
@@ -1077,7 +1078,7 @@
       <img class="decades-gallery-image" src="{slideSrc3}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow3-src">Image URL at 2x:</label>
       <input id="slideshow3-src" name="slideshow3-src" type="text" placeholder="Image URL" bind:value={slideSrc3}>
-      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title3}>Title</span> <p class="body-text"><span contenteditable bind:this={text3}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit3}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title3} on:blur={changeToPlainText}>Title</span> <p class="body-text"><span contenteditable bind:this={text3} on:blur={changeToPlainText}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit3} on:blur={changeToPlainText}>Photo Credit TK</span></p></figcaption>
       <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible3 = false }}">Delete Slide</button>
     </figure>
 
@@ -1085,7 +1086,7 @@
       <img class="decades-gallery-image" src="{slideSrc4}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow4-src">Image URL at 2x:</label>
       <input id="slideshow4-src" name="slideshow4-src" type="text" placeholder="Image URL" bind:value={slideSrc4}>
-      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title4}>Title</span> <p class="body-text"><span contenteditable bind:this={text4}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit4}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title4} on:blur={changeToPlainText}>Title</span> <p class="body-text"><span contenteditable bind:this={text4} on:blur={changeToPlainText}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit4} on:blur={changeToPlainText}>Photo Credit TK</span></p></figcaption>
       <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible4 = false }}">Delete Slide</button>
     </figure>
 
@@ -1093,7 +1094,7 @@
       <img class="decades-gallery-image" src="{slideSrc5}" on:load={checkImageFileSize} data-placeholder="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg">
       <label for="slideshow5-src">Image URL at 2x:</label>
       <input id="slideshow5-src" name="slideshow5-src" type="text" placeholder="Image URL" bind:value={slideSrc5}>
-      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title5}>Title</span> <p class="body-text"><span contenteditable bind:this={text5}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit5}>Photo Credit TK</span></p></figcaption>
+      <figcaption class="decades-gallery-caption subhead alt"><span contenteditable bind:this={title5} on:blur={changeToPlainText}>Title</span> <p class="body-text"><span contenteditable bind:this={text5} on:blur={changeToPlainText}>Body text tk.</span> <span class="credit" contenteditable bind:this={credit5} on:blur={changeToPlainText}>Photo Credit TK</span></p></figcaption>
       <button class="decades-gallery-slideshow-item-delete-button credit" type="button" on:click="{() => { isVisible5 = false }}">Delete Slide</button>
     </figure>
 

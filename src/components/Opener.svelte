@@ -5,6 +5,7 @@
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
   import { getMaxImageSize, isImageWithinSizeBounds } from '../utilities/ImageSizeChecker.js';
+  import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
 
   let desktopImages = getValue( 'desktopImages', 'object' ) || [
     {
@@ -587,8 +588,8 @@
     {/each}
   </div>
 
-  <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable on:blur={e => { storeTextChange( e, 'hed' ); }}>{@html hed}</h1>
-  <p class="decades-opener-dek deck"><span contenteditable on:blur={e => { storeTextChange( e, 'dek' ); }}>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable on:blur={e => { storeTextChange( e, 'byline' ); }}>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
+  <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable on:blur={e => { changeToPlainText( e ); storeTextChange( e, 'hed' ); }}>{@html hed}</h1>
+  <p class="decades-opener-dek deck"><span contenteditable on:blur={e => { changeToPlainText( e ); storeTextChange( e, 'dek' ); }}>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable on:blur={e => { changeToPlainText( e ); storeTextChange( e, 'byline' ); }}>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
   <OpenerHelper {images} on:deleteimage={deleteImage} on:adjustimages={adjustImages} on:makeserif={makeHedSerif}>
     <input id="desktop-opener-url" class="decades-maker-new-header-image-inputs" slot="decades-maker-new-header-image-desktop-src" type="text" placeholder="https://desktop" required="true" bind:value={desktopSrc} />

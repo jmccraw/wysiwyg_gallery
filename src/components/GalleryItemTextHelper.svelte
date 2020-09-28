@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { stripClipboard } from '../utilities/StripClipboard.js';
+  import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
 
   const dispatch = createEventDispatcher();
 
@@ -73,6 +73,6 @@
   <p class="paragraph-hed">New Paragraph Text:</p>
   <label for="paragraph-serif">Make serif:</label>
   <input type="checkbox" id="paragraph-serif" name="paragraph-serif" bind:checked={isSerif} />
-  <p class="body-text" class:serif={isSerif} contenteditable bind:this={text} on:paste={stripClipboard}>New paragraph of text.</p>
+  <p class="body-text" class:serif={isSerif} contenteditable bind:this={text} on:blur={changeToPlainText}>New paragraph of text.</p>
   <button class="add-button credit" type="button" on:click={dispatchNewParagraph}>Add New Paragraph</button>
 </aside>

@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { isSerifHed } from '../utilities/SerifHedStore.js';
-  import { stripClipboard } from '../utilities/StripClipboard.js';
+  import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
 
   const dispatch = createEventDispatcher();
 
@@ -225,8 +225,8 @@
   <input id="new-subheader" name="new-subheader" type="text" placeholder="New Subheader" bind:value={subheader} /> -->
 
 
-  <h2 class="decades-container-hed headline no-motion is-lazy-thing" class:serif={$isSerifHed} contenteditable bind:this={header} on:paste={stripClipboard}>Header Text</h2>
-  <span class="decades-container-hed-team subhead alt" contenteditable bind:this={subheader} on:paste={stripClipboard}>Optional Subheader</span>
+  <h2 class="decades-container-hed headline no-motion is-lazy-thing" class:serif={$isSerifHed} contenteditable bind:this={header} on:blur={changeToPlainText}>Header Text</h2>
+  <span class="decades-container-hed-team subhead alt" contenteditable bind:this={subheader} on:blur={changeToPlainText}>Optional Subheader</span>
 
   <button class="add-button credit" type="button" on:click={dispatchNewHeader}>Add New Header</button>
 </aside>
