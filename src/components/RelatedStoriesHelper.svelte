@@ -21,6 +21,7 @@
 
 <style type="text/scss">
   @import '../styles/vars';
+
   aside {
     margin-bottom: 80px;
     margin-top: 20px;
@@ -30,9 +31,20 @@
     background-color: none;
     border-radius: 50%;
   }
+
+  .credit {
+    background-color: transparent;
+    border: none;
+    color: $decades-red;
+    height: 20px;
+    margin-bottom: 10px;
+    margin-top: -5px;
+    padding: 0;
+    text-decoration: underline;
+  }
 </style>
 
 {#each relatedLinks as {title, link}, index}
-{#if ! $isToggled}<button class="credit" type="button" on:click={dispatchDelete} data-index="{index}">Delete Related Link</button>{/if}
 <a href="{link}" class="decades-related-stories-link subhead alt small" rel="noopener"><span>{@html title}</span></a>
+{#if ! $isToggled}<button class="credit" type="button" on:click={dispatchDelete} data-index="{index}">Delete Related Link</button>{/if}
 {/each}
