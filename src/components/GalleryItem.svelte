@@ -14,7 +14,7 @@
   import { isSerifHed } from '../utilities/SerifHedStore.js';
   import { checkImageFileSize } from '../utilities/ImageSizeChecker.js';
   import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
-  import { gallery } from '../utilities/CodeHelperStore.js';
+  import { galleryCodeStore } from '../utilities/CodeHelperStore.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -58,7 +58,6 @@
     }
   ];
 
-  let currID = items.length;
   let isInitial = true;
   let imageSrc = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
   let slideSrc1 = 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg';
@@ -93,7 +92,8 @@
   let credit4;
   let credit5;
   let aspectRatio = 0.75;
-  gallery.set( items );
+  galleryCodeStore.set( items );
+  // $galleryCodeStore.items = items;
 
   /**
    * Toggles the page from Editor view to Preview view
@@ -113,7 +113,9 @@
    */
   function saveItems() {
     storeValue( 'items', items );
-    gallery.set( items );
+    // galleryCodeStore.set( items );
+    $galleryCodeStore.length = 0;
+    $galleryCodeStore = [...items];
   }
 
   /**
@@ -167,7 +169,7 @@
   function addNewPhoto() {
     isInitial = false;
     items = items.concat( {
-      id: ++currID,
+      id: +new Date(),
       type: 'image',
       classList: '',
       imageClass: isFullWidth ? 'is-full-width' : '',
@@ -189,7 +191,7 @@
   function addNewSlideshow() {
     isInitial = false;
     const slideshowData = {
-      id: ++currID,
+      id: +new Date(),
       type: 'gallery',
       classList: '',
       imageClass: isFullWidthSlideshow ? 'is-full-width' : '',
@@ -285,7 +287,7 @@
     const isSerif = event.detail.isSerif;
 
     items = items.concat( {
-      id: ++currID,
+      id: +new Date(),
       type: 'header',
       isSerif: isSerif,
       header: header,
@@ -304,7 +306,7 @@
     const isSerif = event.detail.isSerif;
 
     items = items.concat( {
-      id: ++currID,
+      id: +new Date(),
       type: 'paragraph',
       isSerif: isSerif,
       text: text
