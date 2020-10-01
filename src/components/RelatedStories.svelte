@@ -3,8 +3,10 @@
   import RelatedStoriesCodeHelper from './RelatedStoriesCodeHelper.svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
+  import { relatedStoriesCodeStore } from '../utilities/CodeHelperStore.js';
 
   let relatedLinks = getValue( 'relatedLinks', 'object' ) || [];
+  relatedStoriesCodeStore.set( relatedLinks );
   let link;
   let title;
 
@@ -13,6 +15,7 @@
    */
   function storeLinks() {
     storeValue( 'relatedLinks', relatedLinks );
+    relatedStoriesCodeStore.set( relatedLinks );
   }
 
   /**
