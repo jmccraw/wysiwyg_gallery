@@ -6,6 +6,7 @@
   import { isToggled } from '../utilities/ToggleStore.js';
   import { getMaxImageSize, isImageWithinSizeBounds } from '../utilities/ImageSizeChecker.js';
   import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
+  import { openerCodeStore } from '../utilities/CodeHelperStore.js';
 
   let desktopImages = getValue( 'desktopImages', 'object' ) || [
     {
@@ -70,6 +71,16 @@
   let desktopPlaceholderImage;
   let mobilePlaceholderImage;
 
+  let openerCodeHelperProps = {
+    desktopImages: desktopImages,
+    mobileImages: mobileImages,
+    isSerif: isSerif,
+    hed: hed,
+    dek: dek,
+    byline: byline
+  };
+  openerCodeStore.set( openerCodeHelperProps );
+
   /**
    * On text element blur, save this new value
    * @event event The blur event
@@ -82,14 +93,20 @@
       hed = newHTML;
       entry.hed = hed;
       storeValue( 'hed', hed );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.hed = hed;
     } else if ( 'dek' === element ) {
       dek = newHTML;
       entry.dek = dek;
       storeValue( 'dek', dek );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.dek = dek;
     } else if ( 'byline' === element ) {
       byline = newHTML;
       entry.byline = byline;
       storeValue( 'byline', byline );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.byline = byline;
     }
 
     window.console.log( 'ENTRY:', entry );
@@ -109,6 +126,8 @@
         alt: altText
       } );
       storeValue( 'desktopImages', desktopImages );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.desktopImages = desktopImages;
     }
 
     if ( '' !== mobileSrc ) {
@@ -118,6 +137,8 @@
         alt: altText
       } );
       storeValue( 'mobileImages', mobileImages );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.mobileImages = mobileImages;
     }
 
     images = {
@@ -143,9 +164,13 @@
     if ( 'desktop' === event.detail.type ) {
       desktopImages = event.detail.items;
       storeValue( 'desktopImages', desktopImages );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.desktopImages = desktopImages;
     } else {
       mobileImages = event.detail.items;
       storeValue( 'mobileImages', mobileImages );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.mobileImages = mobileImages;
     }
   }
 
@@ -159,11 +184,15 @@
       desktopImages = desktopImages;
       images.desktop = desktopImages;
       storeValue( 'desktopImages', desktopImages );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.desktopImages = desktopImages;
     } else {
       mobileImages.splice( event.detail.index, 1 );
       mobileImages = mobileImages;
       images.mobile = mobileImages;
       storeValue( 'mobileImages', mobileImages );
+      // openerCodeStore.set( openerCodeHelperProps );
+      $openerCodeStore.mobileImages = mobileImages;
     }
   }
 
@@ -602,6 +631,6 @@
   <img class="image-placeholder-test" src="{mobileSrc}" bind:this={mobilePlaceholderImage} on:load={checkImageFileSize} />
 
   <pre id="opener-code">
-    <OpenerCodeHelper {desktopImages} {mobileImages} {isSerif} {hed} {dek} {byline} />
+    <OpenerCodeHelper {...openerCodeHelperProps} />
   </pre>
 </header>
