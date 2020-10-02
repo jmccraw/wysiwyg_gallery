@@ -6,20 +6,24 @@
   import RelatedStoriesCodeHelper from './RelatedStoriesCodeHelper.svelte';
   import { getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
-  import { openerCodeStore, galleryCodeStore, relatedStoriesCodeStore } from '../utilities/CodeHelperStore.js';
+  import {
+    accentCodeStore,
+    activeCodeStore,
+    analyticsCodeStore,
+    openerCodeStore,
+    galleryCodeStore,
+    relatedStoriesCodeStore
+    } from '../utilities/CodeHelperStore.js';
 
   $: items = $galleryCodeStore;
   $: openerCodeHelperProps = $openerCodeStore;
   $: relatedLinks = $relatedStoriesCodeStore;
+  $: accentHelper = '' !== $accentCodeStore ? `--decades-accent:${$accentCodeStore};` : '';
+  $: activeHelper = '' !== $activeCodeStore ? `--decades-accent-active:${$activeCodeStore};` : '';
 
   let hasMounted = false;
   let _codeHelper;
   let _textarea;
-  // let _opener;
-  // let _stickyHeader;
-  // let _gallery;
-  // let _relatedStories;
-  // let _scripts;
 
   /**
    * Gets the innerHTML from all the other components and constructs the textarea element
@@ -29,21 +33,6 @@
     if ( ! hasMounted ) return;
 
     const scribeHTML = '<noptags><photo1-wide>';
-    // const _article = document.createElement( 'article' );
-    // const openerHTML = _opener.innerHTML;
-    // const stickyHTML = _stickyHeader.outerHTML;
-    // const galleryHTML = _gallery.innerHTML;
-    // const relatedStoriesHTML = _relatedStories.innerHTML;
-    // const scriptsHTML = _scripts.innerHTML;
-
-    // _article.classList.add( 'decades' );
-    // _article.insertAdjacentHTML( 'beforeend', openerHTML );
-    // _article.insertAdjacentHTML( 'beforeend', stickyHTML );
-    // _article.insertAdjacentHTML( 'beforeend', galleryHTML );
-    // _article.insertAdjacentHTML( 'beforeend', relatedStoriesHTML );
-
-    // _textarea.value = scribeHTML + _article.outerHTML + scriptsHTML;
-    // _textarea.value = '';
 
     // Set a timeout for a small bit of time because otherwise the <pre>
     // hasn't had a chance to update yet
@@ -54,20 +43,16 @@
   }
 
   onMount( () => {
-    hasMounted = true;
     _textarea = document.querySelector( '.code-helper__code' );
-    // _opener = document.getElementById( 'opener-code' );
-    // _stickyHeader = document.querySelector( '.decades-opener-sticky-header' );
-    // _gallery = document.getElementById( 'gallery-code' );
-    // _relatedStories = document.getElementById( 'related-stories-code' );
-    // _scripts = document.getElementById( 'scripts-code' );
-
     _codeHelper = document.getElementById( 'code-helper-container' );
+    hasMounted = true;
 
     buildTextareaCode();
   } );
 
-  $: buildTextareaCode( items );
+  $: if ( items || relatedLinks || openerCodeHelperProps || $activeCodeStore || $accentCodeStore || $analyticsCodeStore ) {
+    buildTextareaCode();
+  }
 </script>
 
 <style type="text/scss">
@@ -101,23 +86,30 @@
     max-width: 600px;
     overflow: hidden;
   }
-</style>
 
-<!-- <pre id="scripts-code">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenLite.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/plugins/ScrollToPlugin.min.js"></script>
-  <script src="https://a.espncdn.com/prod/scripts/pagetype/otl/20191212_decades_best/vendor/hammer.min.js"></script>
-</pre> -->
+  h4.subhead.small {
+    margin-bottom: 16px;
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  h4 + textarea {
+    min-height: 100px;
+    width: 100%;
+  }
+</style>
 
 {#if ! $isToggled}
 <aside class="code-helper">
   <h3 class="subhead small">Copy-Paste to Scribe Story Field</h3>
 
   <pre id="code-helper-container">
-    <OpenerCodeHelper {...openerCodeHelperProps} />
-    <StickyHeader />
-    <GalleryCodeHelper {items} />
-    <RelatedStoriesCodeHelper {relatedLinks} />
+    <main class="decades" style="{accentHelper} {activeHelper}" data-analytics="{$analyticsCodeStore}">
+      <OpenerCodeHelper {...openerCodeHelperProps} />
+      <StickyHeader />
+      <GalleryCodeHelper {items} />
+      <RelatedStoriesCodeHelper {relatedLinks} />
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenLite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/plugins/ScrollToPlugin.min.js"></script>
@@ -125,5 +117,11 @@
   </pre>
 
   <textarea class="code-helper__code"></textarea>
+
+  <h4 class="subhead small">Copy-Paste to Scribe Headfile Body (CSS) Field</h4>
+  <textarea>pagetype/otl/tungsten/HCo_tungsten.css,fonts/bentonsans.css,fonts/bentonsansmedium.css,fonts/bentonsansbold.css,pagetype/otl/publico/publico-secure.css,pagetype/otl/longform_styleguide/css/styleguide.css,pagetype/otl/20200302_female_nba_coaches/css/style-v15.css&disableOptimizations=true&minify=false</textarea>
+
+  <h4 class="subhead small">Copy-Paste to Scribe Headfile Storage (JS) Field</h4>
+  <textarea>pagetype/otl/20200302_female_nba_coaches/main-v6.js&disableOptimizations=true&minify=false</textarea>
 </aside>
 {/if}
