@@ -7,10 +7,14 @@
 	import ClearHelper from './components/ClearHelper.svelte';
 	import CodeHelper from './components/CodeHelper.svelte';
 	import { storeValue, getValue } from './utilities/LocalStore.js';
+	import { accentCodeStore, activeCodeStore, analyticsCodeStore } from './utilities/CodeHelperStore.js';
 
 	let accentColor = getValue( 'accentColor', 'string' ) || '';
 	let highlightColor = getValue( 'highlightColor', 'string' ) || '';
 	let analytics = getValue( 'analytics', 'string' ) || '';
+	accentCodeStore.set( accentColor );
+	activeCodeStore.set( highlightColor );
+	analyticsCodeStore.set( analytics );
 
 	/**
 	 * Store the accent color on blur
@@ -18,6 +22,7 @@
 	function storeAccent() {
 		window.console.log( 'New Accent: ', accentColor );
 		storeValue( 'accentColor', accentColor );
+		accentCodeStore.set( accentColor );
 	}
 
 	/**
@@ -26,6 +31,7 @@
 	function storeHighlight() {
 		window.console.log( 'New Highlight: ', highlightColor );
 		storeValue( 'highlightColor', highlightColor );
+		activeCodeStore.set( highlightColor );
 	}
 
 	/**
@@ -34,6 +40,7 @@
 	function storeAnalytics() {
 		window.console.log( 'New Analytics Phrase: ', analytics );
 		storeValue( 'analytics', analytics );
+		analyticsCodeStore.set( analytics );
 	}
 </script>
 
