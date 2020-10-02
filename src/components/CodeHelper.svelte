@@ -97,10 +97,13 @@
     min-height: 100px;
     width: 100%;
   }
+
+  .code-helper.is-toggled {
+    display: none;
+  }
 </style>
 
-{#if ! $isToggled}
-<aside class="code-helper">
+<aside class="code-helper" class:is-toggled={$isToggled}>
   <h3 class="subhead small">Copy-Paste to Scribe Story Field</h3>
 
   <pre id="code-helper-container">
@@ -124,4 +127,3 @@
   <h4 class="subhead small">Copy-Paste to Scribe Headfile Storage (JS) Field</h4>
   <textarea>pagetype/otl/20200302_female_nba_coaches/main-v6.js&disableOptimizations=true&minify=false</textarea>
 </aside>
-{/if}
