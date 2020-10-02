@@ -113,9 +113,7 @@
    */
   function saveItems() {
     storeValue( 'items', items );
-    // galleryCodeStore.set( items );
-    $galleryCodeStore.length = 0;
-    $galleryCodeStore = [...items];
+    galleryCodeStore.set( items );
   }
 
   /**
