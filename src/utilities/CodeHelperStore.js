@@ -1,7 +1,10 @@
 import { writable } from 'svelte/store';
 
-const openerCodeStore = writable( false );
+const accentCodeStore = writable( '' );
+const activeCodeStore = writable( '' );
+const analyticsCodeStore = writable( '' );
+const openerCodeStore = writable( '' );
 const galleryCodeStore = writable( [] );
-const relatedStoriesCodeStore = writable( false );
+const relatedStoriesCodeStore = writable( [] );
 
-export { openerCodeStore, galleryCodeStore, relatedStoriesCodeStore };
+export { accentCodeStore, activeCodeStore, analyticsCodeStore, openerCodeStore, galleryCodeStore, relatedStoriesCodeStore };
