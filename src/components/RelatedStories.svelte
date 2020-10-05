@@ -1,6 +1,5 @@
 <script>
   import RelatedStoriesHelper from './RelatedStoriesHelper.svelte';
-  import RelatedStoriesCodeHelper from './RelatedStoriesCodeHelper.svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
   import { relatedStoriesCodeStore } from '../utilities/CodeHelperStore.js';
@@ -220,7 +219,3 @@
   </div>
   {/if}
 </aside>
-
-<pre id="related-stories-code">
-  <RelatedStoriesCodeHelper {relatedLinks} />
-</pre>
