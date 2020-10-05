@@ -8,7 +8,7 @@
 <article class="decades-container">
 {#each items as item, index}
   {#if 'image' === item.type}
-    <figure class="decades-gallery-item {item.className ? item.className : ''}">
+    <figure class="decades-gallery-item {item.className ? item.className : ''} {'is-full-width' === item.imageClass ? item.imageClass : ''}">
       <img class="decades-gallery-image {item.imageClass ? item.imageClass : ''} is-lazy" src="https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg" data-src="{item.src}">
       <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
     </figure>
