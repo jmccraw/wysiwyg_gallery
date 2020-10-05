@@ -30,9 +30,9 @@
   function makeHedSerif() {
     const newIsSerif = ! isSerifChecked;
 
-    isSerifHed.set( newIsSerif );
+    // isSerifHed.set( newIsSerif );
     dispatch( 'makeserif', {
-      isserif: newIsSerif
+      isSerif: newIsSerif
     } );
     storeValue( 'isSerifHed', newIsSerif );
   }
@@ -77,14 +77,14 @@
     } );
   }
 
-  onMount( () => {
-    if ( isSerifChecked ) {
-      isSerifHed.set( true );
-      dispatch( 'makeserif', {
-        isserif: true
-      } );
-    }
-  } );
+  // onMount( () => {
+  //   if ( isSerifChecked ) {
+  //     isSerifHed.set( true );
+  //     dispatch( 'makeserif', {
+  //       isserif: true
+  //     } );
+  //   }
+  // } );
 </script>
 
 <style type="text/scss">

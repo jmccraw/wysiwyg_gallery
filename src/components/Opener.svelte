@@ -1,12 +1,12 @@
 <script>
   import OpenerHelper from './OpenerHelper.svelte';
-  import OpenerCodeHelper from './OpenerCodeHelper.svelte';
   import { onMount } from 'svelte';
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
   import { getMaxImageSize, isImageWithinSizeBounds } from '../utilities/ImageSizeChecker.js';
   import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
   import { openerCodeStore } from '../utilities/CodeHelperStore.js';
+  import { isSerifHed } from '../utilities/SerifHedStore.js';
 
   let desktopImages = getValue( 'desktopImages', 'object' ) || [
     {
@@ -64,7 +64,6 @@
   let mobileSrc = '';
   let altText = '';
   let isActive = false;
-  let isSerif = false;
   let currDesktopID = desktopImages.length;
   let currMobileID = mobileImages.length;
   let _opener;
@@ -74,7 +73,7 @@
   let openerCodeHelperProps = {
     desktopImages: desktopImages,
     mobileImages: mobileImages,
-    isSerif: isSerif,
+    isSerif: $isSerifHed,
     hed: hed,
     dek: dek,
     byline: byline
@@ -201,7 +200,8 @@
    * @event event The dispatch event
    */
   function makeHedSerif( event ) {
-    isSerif = ! isSerif;
+    $isSerifHed = event.detail.isSerif;
+    $openerCodeStore.isSerif = $isSerifHed;
   }
 
   /**
@@ -617,7 +617,7 @@
     {/each}
   </div>
 
-  <h1 class="decades-opener-hed headline" class:serif={isSerif} contenteditable on:blur={e => { changeToPlainText( e ); storeTextChange( e, 'hed' ); }}>{@html hed}</h1>
+  <h1 class="decades-opener-hed headline" class:serif={$isSerifHed} contenteditable on:blur={e => { changeToPlainText( e ); storeTextChange( e, 'hed' ); }}>{@html hed}</h1>
   <p class="decades-opener-dek deck"><span contenteditable on:blur={e => { changeToPlainText( e ); storeTextChange( e, 'dek' ); }}>{@html dek}</span> <span class="decades-opener-byline byline" contenteditable on:blur={e => { changeToPlainText( e ); storeTextChange( e, 'byline' ); }}>{@html byline}</span><button class="decades-opener-button" type="button"><svg height="21" viewBox="0 0 13 21" width="13" xmlns="http://www.w3.org/2000/svg"><path d="m15 20 9 9 9-9" fill="none" stroke="#000" stroke-width="3" transform="matrix(0 -1 1 0 -18.5 34.5)"/></svg></button></p>
 
   <OpenerHelper {images} on:deleteimage={deleteImage} on:adjustimages={adjustImages} on:makeserif={makeHedSerif}>
@@ -629,8 +629,4 @@
 
   <img class="image-placeholder-test" src="{desktopSrc}" bind:this={desktopPlaceholderImage} on:load={checkImageFileSize} />
   <img class="image-placeholder-test" src="{mobileSrc}" bind:this={mobilePlaceholderImage} on:load={checkImageFileSize} />
-
-  <pre id="opener-code">
-    <OpenerCodeHelper {...openerCodeHelperProps} />
-  </pre>
 </header>
