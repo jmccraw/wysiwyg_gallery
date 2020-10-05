@@ -974,6 +974,12 @@
     }
   }
 
+  :global(.decades-gallery-item + div .decades-gallery) {
+    border-top: 1px solid var(--decades-accent, $decades-red);
+    margin-top: 21px;
+    padding-top: 24px;
+  }
+
   :global(button.credit) {
     border: none;
     border-radius: 4px;
@@ -1016,7 +1022,7 @@
 <article class="decades-gallery-item-container" class:is-toggled={$isToggled} use:dndzone={{items: items}} on:consider={handleDndConsider} on:finalize={handleDndFinalize}>
 {#each items as item, index (item.id)}
   {#if 'image' === item.type}
-    <figure class="decades-gallery-item {item.className}">
+    <figure class="decades-gallery-item {item.className} {'is-full-width' === item.imageClass ? item.imageClass : ''}">
       <button class="decades-gallery-delete-button credit" type="button" data-index="{index}" on:click={deleteGalleryItem}>Delete Image</button>
       <img class="decades-gallery-image {item.imageClass} {isInitial ? 'is-lazy' : ''}" in:fade="{{ duration: 500 }}" src="{isInitial ? 'https://a.espncdn.com/prod/styles/pagetype/otl/20191212_decades_best/images/placeholder/decades-well-image-placeholder.jpg' : item.src}" data-src="{item.src}">
       <figcaption class="decades-gallery-caption subhead alt"><span class="decades-gallery-date">{@html item.caption.date}</span> {@html item.caption.title} <p class="body-text">{@html item.caption.text} <span class="credit">{@html item.caption.credit}</span></p></figcaption>
@@ -1116,7 +1122,3 @@
 {/if}
 
 <button class="toggle-page-view pill credit" type="button" on:click={toggleRealPage}>Toggle to {$isToggled ? 'Editor' : 'Page Preview'}</button>
-
-<pre id="gallery-code">
-  <GalleryCodeHelper {items} />
-</pre>
