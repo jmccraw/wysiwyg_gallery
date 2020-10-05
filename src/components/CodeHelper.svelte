@@ -122,8 +122,8 @@
   <textarea class="code-helper__code"></textarea>
 
   <h4 class="subhead small">Copy-Paste to Scribe Headfile Body (CSS) Field</h4>
-  <textarea>pagetype/otl/tungsten/HCo_tungsten.css,fonts/bentonsans.css,fonts/bentonsansmedium.css,fonts/bentonsansbold.css,pagetype/otl/publico/publico-secure.css,pagetype/otl/longform_styleguide/css/styleguide.css,pagetype/otl/20200302_female_nba_coaches/css/style-v15.css&disableOptimizations=true&minify=false</textarea>
+  <textarea>pagetype/otl/tungsten/HCo_tungsten.css,fonts/bentonsans.css,fonts/bentonsansmedium.css,fonts/bentonsansbold.css,pagetype/otl/publico/publico-secure.css,pagetype/otl/longform_styleguide/css/styleguide.css,pagetype/otl/2020/20201231_gallery_wysiwyg/css/style-v9.css&disableOptimizations=true&minify=false</textarea>
 
   <h4 class="subhead small">Copy-Paste to Scribe Headfile Storage (JS) Field</h4>
-  <textarea>pagetype/otl/20200302_female_nba_coaches/main-v6.js&disableOptimizations=true&minify=false</textarea>
+  <textarea>pagetype/otl/2020/20201231_gallery_wysiwyg/main-v3.js&disableOptimizations=true&minify=false</textarea>
 </aside>
