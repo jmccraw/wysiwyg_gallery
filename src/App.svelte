@@ -6,6 +6,7 @@
 	import RelatedStories from './components/RelatedStories.svelte';
 	import ClearHelper from './components/ClearHelper.svelte';
 	import CodeHelper from './components/CodeHelper.svelte';
+	import ConfirmationModal from './components/ConfirmationModal.svelte';
 	import { storeValue, getValue } from './utilities/LocalStore.js';
 	import { accentCodeStore, activeCodeStore, analyticsCodeStore } from './utilities/CodeHelperStore.js';
 
@@ -67,4 +68,5 @@
 	<RelatedStories />
 	<ClearHelper />
 	<CodeHelper />
+	<ConfirmationModal />
 </main>
