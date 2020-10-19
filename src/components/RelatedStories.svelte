@@ -3,6 +3,7 @@
   import { storeValue, getValue } from '../utilities/LocalStore.js';
   import { isToggled } from '../utilities/ToggleStore.js';
   import { relatedStoriesCodeStore } from '../utilities/CodeHelperStore.js';
+  import { confirmationMessage } from '../utilities/ConfirmationModalStore.js';
 
   let relatedLinks = getValue( 'relatedLinks', 'object' ) || [];
   relatedStoriesCodeStore.set( relatedLinks );
@@ -15,6 +16,7 @@
   function storeLinks() {
     storeValue( 'relatedLinks', relatedLinks );
     relatedStoriesCodeStore.set( relatedLinks );
+    confirmationMessage.set( 'Added a new related link' );
   }
 
   /**

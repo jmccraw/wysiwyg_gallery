@@ -15,6 +15,7 @@
   import { checkImageFileSize } from '../utilities/ImageSizeChecker.js';
   import { changeToPlainText } from '../utilities/ChangeToPlainText.js';
   import { galleryCodeStore } from '../utilities/CodeHelperStore.js';
+  import { confirmationMessage } from '../utilities/ConfirmationModalStore.js';
 
   let items = getValue( 'items', 'object' ) || [
     {
@@ -181,6 +182,7 @@
     } );
     saveItems();
     resetPhotoHelperItem();
+    confirmationMessage.set( 'Added a new photo' );
   }
 
   /**
@@ -255,6 +257,7 @@
     items = items.concat( slideshowData );
     saveItems();
     resetSlideshowHelperItem();
+    confirmationMessage.set( 'Added a new slideshow' );
   }
 
   /**
@@ -292,6 +295,7 @@
       subheader: subheader
     } );
     saveItems();
+    confirmationMessage.set( 'Added a new subheader' );
   }
 
   /**
@@ -310,6 +314,7 @@
       text: text
     } );
     saveItems();
+    confirmationMessage.set( 'Added a new paragraph' );
   }
 
   function handleDndConsider(e) {
@@ -399,7 +404,7 @@
     }
 
     &.is-template {
-      padding-top: 23px;
+      border-top: 0;
     }
 
     @media screen and (min-width: 375px) {
@@ -974,7 +979,8 @@
     }
   }
 
-  :global(.decades-gallery-item + div .decades-gallery) {
+  :global(.decades-gallery-item + div .decades-gallery),
+  :global(div + div .decades-gallery) {
     border-top: 1px solid var(--decades-accent, $decades-red);
     margin-top: 21px;
     padding-top: 24px;
